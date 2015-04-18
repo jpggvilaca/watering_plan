@@ -21,7 +21,7 @@ var connect = require('gulp-connect');
 
 gulp.task('lint-client', function() {
   return gulp.src('./client/**/*.js')
-    .pipe(jshint());
+    .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
  
@@ -43,9 +43,9 @@ gulp.task('browserify-client', ['lint-client'], function() {
 	return gulp.src('client/index.js')
 	    .pipe(browserify({
 	      insertGlobals: true
-	    }));
-	    .pipe(rename('watering-plan.js'));
-	    .pipe(gulp.dest('build'));
+	    }))
+	    .pipe(rename('watering-plan.js'))
+	    .pipe(gulp.dest('build'))
 	    .pipe(gulp.dest('public/scripts'));
 });
 
@@ -57,25 +57,23 @@ gulp.task('watch', function() {
 
 gulp.task('sass', function() {
 	return gulp.src('client/sass/index.scss')
-	    .pipe(sass());
-	    .pipe(gulp.dest('build'));
+	    .pipe(sass())
+	    .pipe(gulp.dest('build'))
 	    .pipe(gulp.dest('public/stylesheets'));
 });
 
 gulp.task('minify', ['sass'], function() {
 	return gulp.src('build/watering-plan.css')
-	    .pipe(minifyCSS());
-	    .pipe(rename('watering-plan.min.css'));
+	    .pipe(minifyCSS())
+	    .pipe(rename('watering-plan.min.css'))
 	    .pipe(gulp.dest('public/stylesheets'));
 });
 
 gulp.task('uglify', ['browserify-client'], function() {
 	return gulp.src('build/watering-plan.js')
-	    .pipe(uglify());
-	    .pipe(rename('watering-plan.min.js'));
+	    .pipe(uglify())
+	    .pipe(rename('watering-plan.min.js'))
 	    .pipe(gulp.dest('public/scripts'));
 });
 
 gulp.task('build', ['uglify', 'minify']);
-
-// cenas
