@@ -2,30 +2,39 @@
 
 var gulp = require('gulp'),
 	uglify = require('gulp-uglify'),
-	sass = require('gulp-sass');
+	sass = require('gulp-sass'),
+	plumber = require('gulp-plumber');
 
 //// Gulp tasks ////
 
-// Uglifies
+// Uglifies (minifies js)
 
 gulp.task('scripts', function() {
 	gulp.src('client/*.js')
-	.pipe(uglify())
-	.pipe(gulp.dest('build/js'));
+		.pipe(plumber())
+		.pipe(uglify())
+		.pipe(gulp.dest('build/js'));
 });
 
-// Styles
+// Styles (minifies sass)
 
 gulp.task('styles', function() {
 	gulp.src('client/sass/*.scss')
-	.pipe(sass())
-	.pipe(gulp.dest('build/styles/'))
+		.pipe(plumber())
+		.pipe(sass({
+			outputStyle: 'compressed'
+		}))
+		.pipe(gulp.dest('build/styles/'))
 });
 
-// Watch Task
+// Watch Task (watch changes on all files)
 
 gulp.task('watch', function(){
 	gulp.watch('client/*.js', ['scripts']);
+	gulp.watch('client/sass/*.scss', ['styles']);
 });
 
-gulp.task('default', ['scripts', 'styles', 'watch']);
+
+// Main task (which runs everything)
+
+gulp.task('default', ['scripts', 'styles', 'watch']); 
