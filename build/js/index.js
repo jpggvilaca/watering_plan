@@ -1,1 +1,1 @@
-console.log("Client/index.js opened successfully"),riot.mount("test-tag");
+console.log("Client/index.js opened successfully");
