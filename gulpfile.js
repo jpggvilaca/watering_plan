@@ -48,7 +48,7 @@ gulp.task('minify-html', function() {
 // Mounts riot tags
 
 gulp.task('riot-gulp', function() {
-	return gulp.src('client/tags/test-tag.tag')
+	return gulp.src('client/tags/*.tag')
 	.pipe(gulpRiot())
 	.pipe(gulp.dest('build/js'));
 });
