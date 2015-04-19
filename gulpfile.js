@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 	uglify = require('gulp-uglify'),
 	sass = require('gulp-sass'),
 	plumber = require('gulp-plumber'),
-	connect = require('gulp-connect'),
+	webserver = require('gulp-webserver'),
 	minifyHTML = require('gulp-minify-html');
 
 //// Gulp tasks ////
@@ -12,7 +12,7 @@ var gulp = require('gulp'),
 // Uglifies (minifies js)
 
 gulp.task('scripts', function() {
-	gulp.src('client/*.js')
+	gulp.src('client/scripts/*.js')
 		.pipe(plumber())
 		.pipe(uglify())
 		.pipe(gulp.dest('build/js'));
@@ -37,7 +37,7 @@ gulp.task('minify-html', function() {
     spare:true
   };
  
-  return gulp.src('public/*.html')
+  return gulp.src('index.html')
     .pipe(minifyHTML(opts))
     .pipe(gulp.dest('build/'));
 });
@@ -47,18 +47,21 @@ gulp.task('minify-html', function() {
 gulp.task('watch', function(){
 	gulp.watch('client/*.js', ['scripts']);
 	gulp.watch('client/sass/*.scss', ['styles']);
+	gulp.watch('index.html', ['minify-html']);
 });
 
 // Starts the server
 
-gulp.task('connect', function() {
-  connect.server({
-    root: 'build/',
-    port: 3000,
-    livereload: true
-  });
+gulp.task('webserver', function() {
+  gulp.src('./')
+    .pipe(webserver({
+      livereload: true,
+      directoryListing: true,
+      open: true,
+      port: 3000
+    }));
 });
 
 // Main task (which runs everything)
 
-gulp.task('default', ['scripts', 'styles', 'watch', 'minify-html' ,'connect']); 
+gulp.task('default', ['scripts', 'styles', 'watch', 'minify-html' ,'webserver']); 

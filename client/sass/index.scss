@@ -1,12 +1,14 @@
-body {
-  background-color: DarkOliveGreen;
+* {
+	border-sizing: border-box;
 }
 
-aside ul {
-	color: red;
-	border: 1px solid red;
+body {
+  background-color: black;
+  color: white;
+}
 
-	li {
-		padding-right: 10px;
-	}
+.main-wrapper {
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
 }
