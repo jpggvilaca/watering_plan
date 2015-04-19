@@ -1,7 +1,20 @@
 <test-tag>
 
- <p>This is { sample }</p>
+ <p>Infographics list</p>
+ <ul each={ items }>
+ 	<li>{ title }</li>
+ </ul>
 
- this.sample = 'example';
+<script>
+
+this.items = [
+    { title: 'Temperatura'},
+    { title: 'Humidade' },
+    { title: 'Precipitação' }
+];
+
+$('p').css('color','red');
+
+</script>
 
 </test-tag>

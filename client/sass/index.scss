@@ -4,11 +4,26 @@
 
 body {
   background-color: black;
-  color: white;
+  color: aquamarine;
+  font-family: Arvo, Arial;
+
+  ul {
+  	list-style: none;
+  }
+
+  h2 {
+  	padding: 20px 0;
+  }
 }
 
 .main-wrapper {
-	width: 100%;
+	width: auto;
 	margin: 0 auto;
 	text-align: center;
+	padding: 50px 70px;
+
+	ul,
+	p {
+		text-align: left;
+	}
 }
