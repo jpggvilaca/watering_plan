@@ -6,4 +6,4 @@ A simple web app to get data from a matlab application which basicly shows some 
 
 1) git clone this project
 
-2) open cmd and type 'gulp'
+2) open terminal and type gulp
