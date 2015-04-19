@@ -1,1 +1,1 @@
-console.log("rioit mount cenas");
+console.log("Client/index.js opened successfully"),riot.mount("test-tag");

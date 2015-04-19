@@ -2,7 +2,7 @@
 
  <p>Infographics list</p>
  <ul each={ items }>
- 	<li>{ title }</li>
+ 	<li class="cenas">{ title }</li>
  </ul>
 
 <script>
@@ -13,7 +13,12 @@ this.items = [
     { title: 'Precipitação' }
 ];
 
-$('p').css('color','red');
+
+this.on('mount', function () {
+	document.querySelector('.cenas').addEventListener("click", function(){
+		console.log("it worked!");
+	});
+});
 
 </script>
 
