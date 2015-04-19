@@ -5,7 +5,9 @@ var gulp = require('gulp'),
 	sass = require('gulp-sass'),
 	plumber = require('gulp-plumber'),
 	webserver = require('gulp-webserver'),
-	minifyHTML = require('gulp-minify-html');
+	minifyHTML = require('gulp-minify-html'),
+	gulpRiot = require('gulp-riot'),
+	riot = require('riot');
 
 //// Gulp tasks ////
 
@@ -42,12 +44,21 @@ gulp.task('minify-html', function() {
     .pipe(gulp.dest('build/'));
 });
 
+// Mounts riot tags
+
+gulp.task('riot-gulp', function() {
+	return gulp.src('client/tags/test-tag.tag')
+	.pipe(gulpRiot())
+	.pipe(gulp.dest('build/js'));
+});
+
 // Watch Task (watch changes on all files)
 
 gulp.task('watch', function(){
-	gulp.watch('client/*.js', ['scripts']);
+	gulp.watch('client/scripts/*.js', ['scripts']);
 	gulp.watch('client/sass/*.scss', ['styles']);
 	gulp.watch('index.html', ['minify-html']);
+	gulp.watch('client/tags/*.tag');
 });
 
 // Starts the server
@@ -64,4 +75,4 @@ gulp.task('webserver', function() {
 
 // Main task (which runs everything)
 
-gulp.task('default', ['scripts', 'styles', 'watch', 'minify-html' ,'webserver']); 
+gulp.task('default', ['scripts', 'styles', 'watch', 'minify-html' ,'webserver', 'riot-gulp']); 
