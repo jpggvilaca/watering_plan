@@ -1,4 +1,4 @@
-riot.tag('test-tag', '<p>Infographics list</p> <ul each="{ items }"> <li class="cenas">{ title }</li> </ul>', function(opts) {
+riot.tag('test-tag', '<p>Infographics list</p> <ul> <li each="{ items }" class="cenas">{ title }</li> </ul>', function(opts) {
 
 this.items = [
     { title: 'Temperatura'},
@@ -6,14 +6,11 @@ this.items = [
     { title: 'Precipitação' }
 ];
 
-
 this.on('mount', function () {
 	document.querySelector('.cenas').addEventListener("click", function(){
 		console.log("it worked!");
 	});
-}.bind(this);
-
-
+}.bind(this));
 
 
 });

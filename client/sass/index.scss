@@ -26,4 +26,28 @@ body {
 	p {
 		text-align: left;
 	}
+
+	li:hover {
+		cursor: pointer;
+	}
+
+	form {
+		display: block;
+
+		span,
+		input {
+			display: block;
+			text-align: left;
+			margin-top: 2px;
+		}
+
+		input {
+			margin-bottom: 20px;
+		}
+
+		.form-title {
+			font-size: 20px;
+			margin-bottom: 18px;
+		}
+	}
 }
