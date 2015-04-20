@@ -1,13 +1,21 @@
 # watering_plan
 Watering Plan
 
-A simple web app to get data from a matlab application which basicly shows some infographic about watering fields.
+A web app to get data from an octave application to display some weather infographics.
 
 Dependencies:
 -Node
 -NPM
 -Gulp
 
-1) git clone this project
+Preprocessing:
+-Minified html
+-Minified css (and using sass)
+-Minified js
 
-2) open terminal and type gulp
+
+1) Git clone this project
+
+2) Install dependencies
+
+2) Open terminal and type gulp
