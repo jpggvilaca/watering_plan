@@ -14,28 +14,28 @@
 	</p>
 
 	<script>
+	
+		self = this;
 
-
-	// Send API call after receiving user data
-	submitted(e) {
-		e.preventDefault();
-
-		var data = $.getJSON("http://api.openweathermap.org/data/2.5/weather?q=London,uk", function(json) {
-				console.log(json.coord);
-				this.longitude = json.coord.lon; 
-				this.latitude = json.coord.lat;
-
-			});
-
-		this.update();
-
-		console.log("form submitted successfully");
-	};
-
-	// Get the data and format it
-
-
-	// Display the result to the user
+		// Send API call after receiving user data
+		submitted(e) {
+			e.preventDefault();
+	
+			var data = $.getJSON("http://api.openweathermap.org/data/2.5/weather?q=London,uk", function(json) {
+					console.log(json.coord);
+					self.longitude = json.coord.lon; 
+					self.latitude = json.coord.lat;
+					self.update();
+					
+				});
+	
+			console.log("form submitted successfully");
+		};
+	
+		// Get the data and format it
+	
+	
+		// Display the result to the user
 
 	</script>
 
