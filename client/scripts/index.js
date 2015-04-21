@@ -1,2 +1,1 @@
-// Testing
-console.log("Client/index.js opened successfully")
+// Useless for now
