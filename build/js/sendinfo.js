@@ -25,7 +25,7 @@ riot.tag('sendinfo', '<h3>Por favor insira os seus dados </h3> Zona: <select id=
 
 		this.onInput = function(e) {
 			self.day = e.target.value;
-			$('.col-1').css('font-size', '25px');
+			$('.col-1').css('color', 'red');
 			self.update();
 		}.bind(this);
 

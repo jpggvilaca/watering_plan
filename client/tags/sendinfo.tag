@@ -84,7 +84,7 @@
 
 		onInput(e) {
 			self.day = e.target.value;
-			$('.col-1').css('font-size', '25px');
+			$('.col-1').css('color', 'red');
 			self.update();
 		}
 	
