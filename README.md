@@ -9,7 +9,9 @@ Dependencies:
 -Gulp
 
 Preprocessors and packages:
+
 -Html/JS/CSS minifiers
+
 -SASS
 
 1) Git clone this project

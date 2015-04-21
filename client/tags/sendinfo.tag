@@ -1,6 +1,6 @@
 <sendinfo>
 
-	<h3>Enter your info in the fields </h3>
+	<h3>Por favor insira os seus dados </h3>
   Zona:
     <select id="zone" onchange={ submitted }>
       <option value="DouroMinho">Douro/Minho</option>
@@ -45,7 +45,7 @@
   <input type="number" value="1" oninput={ onInput }></input>
 	
 	<div class="results">
-		<h1>You chose:</h1>
+		<h1>Escolheu:</h1>
 		<br/>
 		<div class="col-1">
 			Zona: { zone } <br/>
@@ -84,6 +84,7 @@
 
 		onInput(e) {
 			self.day = e.target.value;
+			$('.col-1').css('font-size', '25px');
 			self.update();
 		}
 	
