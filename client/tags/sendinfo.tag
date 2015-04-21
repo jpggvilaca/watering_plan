@@ -1,97 +1,93 @@
 <sendinfo>
 
-	<form onsubmit={ submitted }>
-        <span class="form-title">Please fill up the form</span>
-        <span>Temperature</span>
-        <input type="text" id="temp"></input>
-        <span>Field size</span>
-        <input type="text" id="field_size"></input>
-        <span>Temperature</span>
-        <input type="text" id="day"></input>
-        <span>Temperature</span>
-        <input type="text" id="month"></input>
-        <span>Temperature</span>
-        <input type="text" id="duration"></input>
-        <span>Temperature</span>
-        <input type="text" id="lat"></input>
-        <span>Temperature</span>
-        <input type="text" id="min_temp"></input>
-        <span>Temperature</span>
-        <input type="text" id="max_temp"></input>
-        <span>Temperature</span>
-        <input type="text" id="wind"></input>
-        <span>Temperature</span>
-        <input type="text" id="precip"></input>
-        <span>Temperature</span>
-        <input type="text" id="min_hidric"></input>
-        <span>Temperature</span>
-        <input type="text" id="evapo"></input>
-        <span>Temperature</span>
-        <input type="text" id="ground"></input>
-        <span>Temperature</span>
-        <input type="text" id="water_type"></input>
-        <input type="submit" value="Submit data"></input>
-	</form>
-
-	<br/>
-
+	<h3>Enter your info in the fields </h3>
+  Zona:
+    <select id="zone" onchange={ submitted }>
+      <option value="DouroMinho">Douro/Minho</option>
+      <option value="TrasosMontes">Tras os Montes</option>
+      <option value="BeiraLitoral">Beira Litoral</option>
+      <option value="BeiraInterior">Beira Interior</option>
+    </select>
+  <br>
+  Planta:
+  <select id="flower" onchange={ submitted }>
+      <option value="Milho Grao">Milho Grão</option>
+      <option value="Milho"> Milho</option>
+      <option value="Prado"> Prado</option>
+      <option value="Batata"> Batata</option>
+      <option value="Couve Macieira"> Couve Macieira</option>
+      <option value="Tomateiro"> Tomateiro</option>
+      <option value="Pessegueiro"> Pessegueiro</option>
+      <option value="Pomoideas"> Pomoídeas</option>
+      <option value="Vinha"> Vinha</option>
+    </select>
+  <br>
+  <br>
+  Data de Inicio:
+  <br>
+  Mes:
+    <select id="month" onchange={ submitted }>
+      <option value="Janeiro">Janeiro</option>
+      <option value="Fevereiro"> Fevereiro</option>
+      <option value="Marco"> Março</option>
+      <option value="Abril"> Abril</option>
+      <option value="Maio"> Maio</option>
+      <option value="Junho"> Junho</option>
+      <option value="Julho"> Julho</option>
+      <option value="Agosto"> Agosto</option>
+      <option value="Setembro"> Setembro</option>
+      <option value="Outubro"> Outubro</option>
+      <option value="Novembro"> Novembro</option>
+      <option value="Dezembro"> Dezembro</option>
+    </select>
+  <br>
+  Dia
+  <input type="number" value="1" oninput={ onInput }></input>
+	
 	<div class="results">
 		<h1>You chose:</h1>
 		<br/>
 		<div class="col-1">
-			Temperature: { temperature } <br/>
-			Field Size:{ fieldSize } <br/>
-			Field Size:{ fieldSize } <br/>
-		</div>
-
-		<div class="col-2">
-			Field Size:{ fieldSize } <br/>
-			Field Size:{ fieldSize } <br/>
-			Field Size:{ fieldSize } <br/>
-		</div>
-
-		<div class="col-3">
-			Field Size:{ fieldSize } <br/>
-			Field Size:{ fieldSize } <br/>
-			Field Size:{ fieldSize } <br/>
-		</div>
-
-		<div class="col-4">
-			Field Size:{ fieldSize } <br/>
-			Field Size:{ fieldSize } <br/>
-			Field Size:{ fieldSize } <br/>
-			Field Size:{ fieldSize }
+			Zona: { zone } <br/>
+			Planta:{ flower } <br/>
+			Mes:{ month } <br/>
+			Dia:{ day } <br/
 		</div>
 	</div>
 
 	<script>
 	
 		self = this;
+		this.zone = '';
+		this.flower = '';
+		this.month = '';
+		this.day = '';
 
-		// Send API call after receiving user data
+		// Get the data from the user
 		submitted(e) {
-			e.preventDefault();
+			var ID = $(e.target).attr('id');
 
-			self.temperature = $('#temp').val()
-			self.fieldSize = $('#field_size').val()
-			self.update();
+			if(ID == 'zone')
+				self.zone = $('#zone :selected').text();
+				self.update();
 
-	
-			/* DUMMY API FOR TESTING
-			var data = $.getJSON("http://api.openweathermap.org/data/2.5/weather?q=London,uk", function(json) {
-					console.log(json.coord);
-					self.longitude = json.coord.lon; 
-					self.latitude = json.coord.lat;
-					self.update();
-					
-				});
-
-			*/
-	
-			console.log("form submitted successfully");
+			if(ID == 'flower')
+				self.flower = $('#flower :selected').text();
+				self.update();
+			if(ID == 'month')
+				self.month = $('#month :selected').text();
+				self.update();
+			if(ID == 'day')
+				self.day = $('#day :selected').text();
+				self.update();
 		};
+
+		onInput(e) {
+			self.day = e.target.value;
+			self.update();
+		}
 	
-		// Get the data and format it
+		// Send the data to octave app
 	
 	
 		// Display the result to the user

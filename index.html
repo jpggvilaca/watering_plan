@@ -13,60 +13,15 @@
 <body>
   <div class=main-wrapper>
     <h1>Welcome to Water Planning app</h1>
-    <!--sendinfo></sendinfo-->
+    <sendinfo></sendinfo>
     
     <h2>Infographics about field conditions</h2>
      <br><br>
   </div>
+
   <script src=build/js/index.js></script>
   <script src=build/js/sendinfo.js></script>
   <script>riot.mount('sendinfo')</script>
 
 </body>
-  <h3>Enter info in the fields </h3>
-  <form><br>
-  Zona:
-    <select id="zona">
-      <option value="DouroMinho">Douro/Minho</option>
-      <option value="TrasosMontes">Tras os Montes</option>
-      <option value="BeiraLitoral">Beira Litoral</option>
-      <option value="BeiraInterior">Beira Interior</option>
-    </select>
-  <br>
-  Planta:
-  <select id="planta">
-      <option value="Milho Grao">Milho Grão</option>
-      <option value="Milho"> Milho</option>
-      <option value="Prado"> Prado</option>
-      <option value="Batata"> Batata</option>
-      <option value="Couve Macieira"> Couve Macieira</option>
-      <option value="Tomateiro"> Tomateiro</option>
-      <option value="Pessegueiro"> Pessegueiro</option>
-      <option value="Pomoideas"> Pomoídeas</option>
-      <option value="Vinha"> Vinha</option>
-    </select>
-  <br>
-  <br>
-  Data de Inicio:
-  <br>
-  Mes:
-    <select id="mes">
-      <option value="Janeiro">Janeiro</option>
-      <option value="Fevereiro"> Fevereiro</option>
-      <option value="Marco"> Março</option>
-      <option value="Abril"> Abril</option>
-      <option value="Maio"> Maio</option>
-      <option value="Junho"> Junho</option>
-      <option value="Julho"> Julho</option>
-      <option value="Agosto"> Agosto</option>
-      <option value="Setembro"> Setembro</option>
-      <option value="Outubro"> Outubro</option>
-      <option value="Novembro"> Novembro</option>
-      <option value="Dezembro"> Dezembro</option>
-    </select>
-  <br>
-  Dia
-  <input type="number" value="DiaInit" min="1" max="maxDia()">
-  </form>
-  <input type="submit" value"Submit">
 </html>

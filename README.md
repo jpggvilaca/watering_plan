@@ -8,11 +8,9 @@ Dependencies:
 -NPM
 -Gulp
 
-Preprocessing:
--Minified html
--Minified css (and using sass)
--Minified js
-
+Preprocessors and packages:
+-Html/JS/CSS minifiers
+-SASS
 
 1) Git clone this project
 
