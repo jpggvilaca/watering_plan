@@ -16,6 +16,6 @@ Preprocessors and packages:
 
 1) Git clone this project
 
-2) Install dependencies
+2) Install dependencies (just run: npm install, bower i)
 
 2) Open terminal and type gulp
