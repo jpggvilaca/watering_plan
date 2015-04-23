@@ -3,6 +3,7 @@
 	<h3>Por favor insira os seus dados </h3>
   Zona:
     <select id="zone" onchange={ submitted }>
+      <option value="">Escolha a zona</option>
       <option value="DouroMinho">Douro/Minho</option>
       <option value="TrasosMontes">Tras os Montes</option>
       <option value="BeiraLitoral">Beira Litoral</option>
@@ -11,6 +12,7 @@
   <br>
   Planta:
   <select id="flower" onchange={ submitted }>
+      <option value="">Escolha a planta</option>
       <option value="Milho Grao">Milho Grão</option>
       <option value="Milho"> Milho</option>
       <option value="Prado"> Prado</option>
@@ -27,6 +29,7 @@
   <br>
   Mes:
     <select id="month" onchange={ submitted }>
+      <option value="">Escolha o mês</option>
       <option value="Janeiro">Janeiro</option>
       <option value="Fevereiro"> Fevereiro</option>
       <option value="Marco"> Março</option>
@@ -43,6 +46,7 @@
   <br>
   Dia
   <input type="number" value="1" oninput={ onInput }></input>
+  <button type="button" onclick={ sendData }>Gerar gráfico</button>
 	
 	<div class="results">
 		<h1>Escolheu:</h1>
@@ -62,6 +66,10 @@
 		this.flower = '';
 		this.month = '';
 		this.day = '';
+
+        this.on('mount', function() {
+            $('#myChart').addClass('hidechart');
+        });
 
 		// Get the data from the user
 		submitted(e) {
@@ -86,7 +94,11 @@
 			self.day = e.target.value;
 			$('.col-1').css('color', 'red');
 			self.update();
-		}
+		};
+
+        sendData(e) {
+            $('#myChart').removeClass('hidechart');
+        };
 	
 		// Send the data to octave app
 	
