@@ -19,7 +19,7 @@
       <option value="Batata"> Batata</option>
       <option value="Couve Macieira"> Couve Macieira</option>
       <option value="Tomateiro"> Tomateiro</option>
-      <option value="Pessegueiro"> Pessegueiro</option>
+      <option value="Pessegueiro"> Pessegueiro</option>w
       <option value="Pomoideas"> Pomoídeas</option>
       <option value="Vinha"> Vinha</option>
     </select>
@@ -28,7 +28,7 @@
   Data de Inicio:
   <br>
   Mes:
-    <select id="month" onchange={ submitted }>
+    <select id="startMonth" onchange={ submitted }>
       <option value="">Escolha o mês</option>
       <option value="Janeiro">Janeiro</option>
       <option value="Fevereiro"> Fevereiro</option>
@@ -45,7 +45,31 @@
     </select>
   <br>
   Dia
-  <input type="number" value="1" oninput={ onInput }></input>
+  <input type="number" value="1" id="diainicial" oninput={ onInput }></input>
+  <br>
+  <br>
+  Data de Fim:
+  <br>
+  Mes:
+    <select id="endMonth" onchange={ submitted }>
+      <option value="">Escolha o mês</option>
+      <option value="Janeiro">Janeiro</option>
+      <option value="Fevereiro"> Fevereiro</option>
+      <option value="Marco"> Março</option>
+      <option value="Abril"> Abril</option>
+      <option value="Maio"> Maio</option>
+      <option value="Junho"> Junho</option>
+      <option value="Julho"> Julho</option>
+      <option value="Agosto"> Agosto</option>
+      <option value="Setembro"> Setembro</option>
+      <option value="Outubro"> Outubro</option>
+      <option value="Novembro"> Novembro</option>
+      <option value="Dezembro"> Dezembro</option>
+    </select>
+  <br>
+  Dia
+  <input type="number" value="1" id="diafinal" oninput={ onInput }></input>
+  <br/>
   <button type="button" onclick={ sendData }>Gerar gráfico</button>
 	
 	<div class="results">
@@ -54,8 +78,8 @@
 		<div class="col-1">
 			Zona: { zone } <br/>
 			Planta:{ flower } <br/>
-			Mes:{ month } <br/>
-			Dia:{ day } <br/
+      <br/>
+			<p if={ daysSent } >Data: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
 		</div>
 	</div>
 
@@ -64,8 +88,11 @@
 		self = this;
 		this.zone = '';
 		this.flower = '';
-		this.month = '';
-		this.day = '';
+		this.startMonth = '';
+		this.startDay = '';
+    this.endDay = '';
+    this.endMonth = '';
+    this.daysSent = false;
 
         this.on('mount', function() {
             $('#myChart').addClass('hidechart');
@@ -82,25 +109,40 @@
 			if(ID == 'flower')
 				self.flower = $('#flower :selected').text();
 				self.update();
-			if(ID == 'month')
-				self.month = $('#month :selected').text();
+			if(ID == 'startMonth')
+				self.startMonth = $('#startMonth :selected').text();
 				self.update();
-			if(ID == 'day')
-				self.day = $('#day :selected').text();
-				self.update();
+      if(ID == 'endMonth')
+        self.endMonth = $('#endMonth :selected').text();
+        self.update();
 		};
 
 		onInput(e) {
-			self.day = e.target.value;
-			$('.col-1').css('color', 'red');
-			self.update();
+      var ID = $(e.target).attr('id');
+      console.log(ID);
+
+			if(ID == 'diainicial')
+        self.startDay = e.target.value;
+        self.update();
+      if(ID == 'diafinal')
+        self.endDay = e.target.value;
+        this.daysSent = true;
+        self.update();
+
 		};
 
         sendData(e) {
             $('#myChart').removeClass('hidechart');
+            $('.col-1').css('color', 'red');
         };
 	
-		// Send the data to octave app
+		// Send the data to the weather api
+
+    // Get the response from weather api
+
+    // Format data into .txt and send it to octave
+
+    // Receive the output .txt from octave
 	
 	
 		// Display the result to the user
