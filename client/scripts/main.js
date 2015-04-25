@@ -1,10 +1,11 @@
-fs = require('fs');
+var fs = require('fs');
 
-fs.writeFile('data.txt', data, function (err) {
-  if (err) return console.log(err);
-  console.log('Hello World > data.txt');
-});
-
+var createsDataTxt = function() {
+	fs.writeFile('data.txt', data, function (err) {
+	if (err) return console.log(err);
+	console.log('Hello World > data.txt');
+	});
+}
 
 /*
 
@@ -16,4 +17,8 @@ fs.writeFile('data.txt', data, function (err) {
   console.log('Hello World > data.txt');
 });
 
+
+Use a server-side script to append to the file and use JavaScript to post to that script.
  */
+
+ module.exports = createsDataTxt;

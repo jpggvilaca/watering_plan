@@ -38,4 +38,5 @@ $(function () {
     
     var weatherData = 3;
 
+
 });

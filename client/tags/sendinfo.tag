@@ -119,7 +119,6 @@
 
 		onInput(e) {
       var ID = $(e.target).attr('id');
-      console.log(ID);
 
 			if(ID == 'diainicial')
         self.startDay = e.target.value;

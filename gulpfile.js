@@ -7,8 +7,7 @@ var gulp = require('gulp'),
 	webserver = require('gulp-webserver'),
 	minifyHTML = require('gulp-minify-html'),
 	gulpRiot = require('gulp-riot'),
-	riot = require('riot'),
-	coffee = require('gulp-coffee');
+	riot = require('riot');
 
 //// Gulp tasks ////
 
