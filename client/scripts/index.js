@@ -1,6 +1,7 @@
-// Chart logic
-
 $(function () {
+
+    // Chart logic
+
    var data = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
@@ -30,4 +31,11 @@ $(function () {
     var ctx = document.getElementById("myChart").getContext("2d");
     var myLineChart = new Chart(ctx).Bar(data);
     myLineChart.addData([40, 60], "August");
+
+
+
+    // Weather api call logic
+    
+    var weatherData = 3;
+
 });
