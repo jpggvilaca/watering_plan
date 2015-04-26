@@ -93,6 +93,8 @@
     this.endDay = '';
     this.endMonth = '';
     this.daysSent = false;
+    this.lon =  0;
+    this.lat =  0;
 
         this.on('mount', function() {
             $('#myChart').addClass('hidechart');
@@ -135,9 +137,12 @@
             $('.col-1').css('color', 'red');
         };
 	
-		// Send the data to the weather api
+		// Weather API logic
 
-    // Get the response from weather api
+    var weatherData = $.getJSON('http://api.openweathermap.org/data/2.5/weather?q=Braga,PT', function(data) {
+        this.lat = data.coord.lat;
+        this.lon = data.coord.lon;
+      });
 
     // Format data into .txt and send it to octave
 
