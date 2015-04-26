@@ -80,6 +80,8 @@
 			Planta:{ flower } <br/>
       <br/>
 			<p if={ daysSent } >Data: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
+      <p>Latitude: { this.lat } </p>
+      <p>Longitude: { this.lon } </p>
 		</div>
 	</div>
 
@@ -96,9 +98,9 @@
     this.lon =  0;
     this.lat =  0;
 
-        this.on('mount', function() {
-            $('#myChart').addClass('hidechart');
-        });
+    this.on('mount', function() {
+        $('#myChart').addClass('hidechart');
+    });
 
 		// Get the data from the user
 		submitted(e) {
@@ -132,10 +134,10 @@
 
 		};
 
-        sendData(e) {
-            $('#myChart').removeClass('hidechart');
-            $('.col-1').css('color', 'red');
-        };
+    sendData(e) {
+        $('#myChart').removeClass('hidechart');
+        $('.col-1').css('color', 'red');
+    };
 	
 		// Weather API logic
 
