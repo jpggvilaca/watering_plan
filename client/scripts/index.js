@@ -2,6 +2,9 @@ $(function () {
 
     // Chart logic
 
+
+   // Data to be inserted onto the chart object
+   
    var data = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
@@ -28,45 +31,21 @@ $(function () {
     ]
     };
 
+
+    // Creates the chart object
     var ctx = document.getElementById("myChart").getContext("2d");
     var myLineChart = new Chart(ctx).Bar(data);
-    myLineChart.addData([40, 60], "August");
 
-    var call = $.getJSON('http://wp.watering.dev.10.0.0.170.xip.io?filename=xpto');
+
+    // Inserts another row of data onto the chart
+    myLineChart.addData([40, 60], "August");
+    
+
+    // Makes an api call to the server to get the content of the file
+    var call = $.getJSON('http://wp.watering.dev.10.0.0.170.xip.io?filename=teste');
     call.then(function(data) {
             console.log(data);
         });
-
-
-
-    // NOTE: make an ajax call to a php script that does the read/write
-
-    // Using inet script
-    // var textFile = null,
-    // makeTextFile = function (text) {
-    //     var data = new Blob([text], {type: 'text/plain'});
-
-    //     // If we are replacing a previously generated file we need to
-    //     // manually revoke the object URL to avoid memory leaks.
-    //     if (textFile !== null) {
-    //       window.URL.revokeObjectURL(textFile);
-    //     }
-
-    //     textFile = window.URL.createObjectURL(data);
-
-    //     return textFile;
-    //     };
-
-
-    // var create = document.getElementById('flower'),
-    //     textbox = document.getElementById('zone');
-
-    // create.addEventListener('click', function () {
-    //     var link = document.getElementById('startMonth');
-    //     link.href = makeTextFile(textbox.value);
-    //     link.style.display = 'block';
-    // }, false);
-
-    // end of inet script
+    call.fail(console.log("Error retrieving file."));
 
 });

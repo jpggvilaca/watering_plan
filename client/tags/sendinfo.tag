@@ -71,6 +71,8 @@
   <input type="number" value="1" id="diafinal" oninput={ onInput }></input>
   <br/>
   <button type="button" onclick={ sendData }>Gerar gráfico</button>
+  <br>
+  <input type="text" value="" id="local" oninput={ onInputPlace }></input>
 	
 	<div class="results">
 		<h1>Escolheu:</h1>
@@ -97,6 +99,7 @@
     this.daysSent = false;
     this.lon =  0;
     this.lat =  0;
+    this.local = "";
 
     this.on('mount', function() {
         $('#myChart').addClass('hidechart');
@@ -134,6 +137,10 @@
 
 		};
 
+    onInputPlace(e) {
+      return e.target.value.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     sendData(e) {
         $('#myChart').removeClass('hidechart');
         $('.col-1').css('color', 'red');
@@ -141,14 +148,29 @@
 	
 		// Weather API logic
 
-    var weatherData = $.getJSON('http://api.openweathermap.org/data/2.5/weather?q=Braga,PT', function(data) {
+    this.local = onInputPlace();
+
+    var weatherData = $.getJSON('http://api.openweathermap.org/data/2.5/weather?q='+ local + ",PT", function(data) {
         this.lat = data.coord.lat;
         this.lon = data.coord.lon;
       });
 
-    // Format data into .txt and send it to octave
+    // Format data into json and send it to octave
 
-    // Receive the output .txt from octave
+    /*
+        
+    $.ajax({
+      url: 'process-data.php',
+      type: 'post',
+      data: {"points" : JSON.stringify(ourObj)},
+      success: function(data){
+        // do something with data that came back-
+      }
+    });
+
+    */
+
+    // Receive the output json from octave
 	
 	
 		// Display the result to the user

@@ -1,14 +1,19 @@
 <?php
 
+// Write to file
+// $myfile = fopen($jsonFile, "w") or die("Unable to open file!");
+// fwrite($myfile, $txt);
+// $txt = "Jane Doe\n";
+// fclose($myfile);
+
 
 // Retrieves the file 
 
-
 $jsonFile = 'Repositorio/teste.json';
 
-if ($_GET['filename']) {
-    $jsonFile = 'Teste/'.$_GET['filename'].'.json';
-}
+// if ($_GET['filename']) {
+//     $jsonFile = 'Teste/'.$_GET['filename'].'.json';
+// }
 
 $data = file_get_contents($jsonFile);
 
@@ -26,7 +31,5 @@ if (!is_string($data)) {
 }
 
 die();
-
-
 
 ?>
