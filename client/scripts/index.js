@@ -26,42 +26,47 @@ $(function () {
             data: [28, 48, 40, 19, 86, 27, 90]
         }
     ]
-};
+    };
 
     var ctx = document.getElementById("myChart").getContext("2d");
     var myLineChart = new Chart(ctx).Bar(data);
     myLineChart.addData([40, 60], "August");
+
+    var call = $.getJSON('http://wp.watering.dev.10.0.0.170.xip.io?filename=xpto');
+    call.then(function(data) {
+            console.log(data);
+        });
 
 
 
     // NOTE: make an ajax call to a php script that does the read/write
 
     // Using inet script
-    var textFile = null,
-    makeTextFile = function (text) {
-        var data = new Blob([text], {type: 'text/plain'});
+    // var textFile = null,
+    // makeTextFile = function (text) {
+    //     var data = new Blob([text], {type: 'text/plain'});
 
-        // If we are replacing a previously generated file we need to
-        // manually revoke the object URL to avoid memory leaks.
-        if (textFile !== null) {
-          window.URL.revokeObjectURL(textFile);
-        }
+    //     // If we are replacing a previously generated file we need to
+    //     // manually revoke the object URL to avoid memory leaks.
+    //     if (textFile !== null) {
+    //       window.URL.revokeObjectURL(textFile);
+    //     }
 
-        textFile = window.URL.createObjectURL(data);
+    //     textFile = window.URL.createObjectURL(data);
 
-        return textFile;
-    };
+    //     return textFile;
+    //     };
 
 
-  var create = document.getElementById('create'),
-    textbox = document.getElementById('textbox');
+    // var create = document.getElementById('flower'),
+    //     textbox = document.getElementById('zone');
 
-  create.addEventListener('click', function () {
-    var link = document.getElementById('downloadlink');
-    link.href = makeTextFile(textbox.value);
-    link.style.display = 'block';
-  }, false);
+    // create.addEventListener('click', function () {
+    //     var link = document.getElementById('startMonth');
+    //     link.href = makeTextFile(textbox.value);
+    //     link.style.display = 'block';
+    // }, false);
 
-  // end of inet script
+    // end of inet script
 
-})();
+});
