@@ -138,7 +138,7 @@
 		};
 
     onInputPlace(e) {
-      return e.target.value.charAt(0).toUpperCase() + string.slice(1);
+      this.local = e.target.value.charAt(0).toUpperCase() + string.slice(1);
     }
 
     sendData(e) {
@@ -148,9 +148,7 @@
 	
 		// Weather API logic
 
-    this.local = onInputPlace();
-
-    var weatherData = $.getJSON('http://api.openweathermap.org/data/2.5/weather?q='+ local + ",PT", function(data) {
+    var weatherData = $.getJSON('http://api.openweathermap.org/data/2.5/weather?q='+ this.local + ",PT", function(data) {
         this.lat = data.coord.lat;
         this.lon = data.coord.lon;
       });

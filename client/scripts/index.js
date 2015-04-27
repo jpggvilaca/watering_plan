@@ -42,10 +42,12 @@ $(function () {
     
 
     // Makes an api call to the server to get the content of the file
-    var call = $.getJSON('http://wp.watering.dev.10.0.0.170.xip.io?filename=teste');
+    var call = $.getJSON('http://localhost/index.php');
     call.then(function(data) {
             console.log(data);
         });
     call.fail(console.log("Error retrieving file."));
+
+    // 'http://wp.watering.dev.10.0.0.170.xip.io?filename=teste'
 
 });
