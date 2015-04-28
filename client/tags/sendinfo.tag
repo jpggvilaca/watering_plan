@@ -4,24 +4,13 @@
   Zona:
     <select id="zone" onchange={ submitted }>
       <option value="">Escolha a zona</option>
-      <option value="DouroMinho">Douro/Minho</option>
-      <option value="TrasosMontes">Tras os Montes</option>
-      <option value="BeiraLitoral">Beira Litoral</option>
-      <option value="BeiraInterior">Beira Interior</option>
+      <option each="{ zona, i in  fields.zone }" value="{ zona }">{ zona }</option>
     </select>
   <br>
   Planta:
   <select id="flower" onchange={ submitted }>
       <option value="">Escolha a planta</option>
-      <option value="Milho Grao">Milho Grão</option>
-      <option value="Milho"> Milho</option>
-      <option value="Prado"> Prado</option>
-      <option value="Batata"> Batata</option>
-      <option value="Couve Macieira"> Couve Macieira</option>
-      <option value="Tomateiro"> Tomateiro</option>
-      <option value="Pessegueiro"> Pessegueiro</option>w
-      <option value="Pomoideas"> Pomoídeas</option>
-      <option value="Vinha"> Vinha</option>
+      <option each="{ flower, i in  fields.flower }" value="{ flower }">{ flower }</option>
     </select>
   <br>
   <br>
@@ -30,18 +19,7 @@
   Mes:
     <select id="startMonth" onchange={ submitted }>
       <option value="">Escolha o mês</option>
-      <option value="Janeiro">Janeiro</option>
-      <option value="Fevereiro"> Fevereiro</option>
-      <option value="Marco"> Março</option>
-      <option value="Abril"> Abril</option>
-      <option value="Maio"> Maio</option>
-      <option value="Junho"> Junho</option>
-      <option value="Julho"> Julho</option>
-      <option value="Agosto"> Agosto</option>
-      <option value="Setembro"> Setembro</option>
-      <option value="Outubro"> Outubro</option>
-      <option value="Novembro"> Novembro</option>
-      <option value="Dezembro"> Dezembro</option>
+      <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
     </select>
   <br>
   Dia
@@ -53,18 +31,7 @@
   Mes:
     <select id="endMonth" onchange={ submitted }>
       <option value="">Escolha o mês</option>
-      <option value="Janeiro">Janeiro</option>
-      <option value="Fevereiro"> Fevereiro</option>
-      <option value="Marco"> Março</option>
-      <option value="Abril"> Abril</option>
-      <option value="Maio"> Maio</option>
-      <option value="Junho"> Junho</option>
-      <option value="Julho"> Julho</option>
-      <option value="Agosto"> Agosto</option>
-      <option value="Setembro"> Setembro</option>
-      <option value="Outubro"> Outubro</option>
-      <option value="Novembro"> Novembro</option>
-      <option value="Dezembro"> Dezembro</option>
+      <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
     </select>
   <br>
   Dia
@@ -100,6 +67,12 @@
     this.lon =  0;
     this.lat =  0;
     this.local = "";
+
+    this.fields = {
+      "zone": ["DouroMinho","TrasosMontes", "BeiraLitoral", "BeiraInterior"],
+      "flower": ["Milho Grao", "Milho", "Prado", "Batata", "Couve", "Tomateiro", "Pessegueiro", "Pomoideas", "Vinha"],
+      "Months": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+    }
 
     this.on('mount', function() {
         $('#myChart').addClass('hidechart');
@@ -154,19 +127,15 @@
       });
 
     // Format data into json and send it to octave
-
-    /*
         
     $.ajax({
-      url: 'process-data.php',
+      url: 'http://localhost://process-data.php',
       type: 'post',
-      data: {"points" : JSON.stringify(ourObj)},
+      data: {"input-data" : JSON.stringify(this.fields)},
       success: function(data){
         // do something with data that came back-
       }
     });
-
-    */
 
     // Receive the output json from octave
 	
