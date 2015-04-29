@@ -36,22 +36,35 @@ $(function () {
     var ctx = document.getElementById("myChart").getContext("2d");
     var myLineChart = new Chart(ctx).Bar(data);
 
-    // Makes an api call to the server to get the content of the file (output from octave)
-    var call = $.getJSON('http://localhost:80/index.php');
-    call.done(function(data) {
+});
+
+
+// Server gen: http://wp.watering.dev.10.0.0.170.xip.io
+// Server home: http://localhost:80
+
+
+// Makes an api call to the server to get the content of the file (output from octave)
+    /*var callToWeather = $.getJSON('http://localhost:80/index.php');
+    callToWeather.done(function(data) {
             console.log("call to index php successful");
             return;
         });
-    call.fail(function() { console.log("Error retrieving file."); return; });
+    callToWeather.fail(function() { console.log("Error retrieving file."); return; });
 
+    callToWeather.abort();
 
     // Makes the ajax call to write data to file
     // stringify: js -> json
     // parse: json -> js
-    $.ajax({
+
+    // esta call era aqui
+
+    /*
+
+    var sendDataToText = $.ajax({
       url: 'http://localhost:80/process-data.php',
       type: 'post',
-      data: {"input-data" : JSON.stringify(this.fields)},
+      data: {"input-data" : JSON.stringify(fields)},
       dataType: 'json',
       success: function(data){
         console.log('call to process-data successful');
@@ -60,8 +73,6 @@ $(function () {
       error: function() { console.log("falhou"); return; }
     });
 
-});
+    sendDataToText.abort();
 
-
-// Server gen: http://wp.watering.dev.10.0.0.170.xip.io
-// Server home: http://localhost:80
+    */

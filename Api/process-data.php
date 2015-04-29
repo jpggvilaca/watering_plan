@@ -11,14 +11,12 @@ header('Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, PUT');
 $meuobjecto = json_decode($_POST['input-data']);
 var_dump($meuobjecto);
 
-
+echo $meuobjecto;
 
 
 $myfile = fopen("cenas.txt", "w") or die("Erro ao criar ficheiro!");
-$txt = "Jane Doe\n";
+$txt = "cenas\n";
 fwrite($myfile, $txt);
 fclose($myfile);
-
-print('{}');
 
 ?>

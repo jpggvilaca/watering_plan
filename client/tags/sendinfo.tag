@@ -72,7 +72,7 @@
       "zone": ["DouroMinho","TrasosMontes", "BeiraLitoral", "BeiraInterior"],
       "flower": ["Milho Grao", "Milho", "Prado", "Batata", "Couve", "Tomateiro", "Pessegueiro", "Pomoideas", "Vinha"],
       "Months": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
-    }
+    };
 
     this.on('mount', function() {
         $('#myChart').addClass('hidechart');
@@ -127,9 +127,31 @@
       });
 
     // Format data into json and send it to octave
-    
+
+    var sendDataToText = $.ajax({
+      url: 'http://localhost:80/process-data.php',
+      type: 'post',
+      data: {"input-data" : JSON.stringify(this.fields)},
+      dataType: 'json',
+      success: function(data){
+        console.log('call to process-data successful');
+        return;
+      },
+      error: function() { console.log("falhou"); return; }
+    });
+
+    sendDataToText.abort();
+
     // Receive the output json from octave
-	
+
+    var callFromOctave = $.getJSON('http://localhost:80/index.php');
+    callFromOctave.done(function(data) {
+            console.log("call to index php successful");
+            return;
+        });
+    callFromOctave.fail(function() { console.log("Error retrieving file."); return; });
+
+    callFromOctave.abort();
 	
 		// Display the result to the user
 
