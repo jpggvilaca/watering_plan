@@ -42,12 +42,22 @@ $(function () {
     
 
     // Makes an api call to the server to get the content of the file
-    var call = $.getJSON('http://localhost/index.php');
+    var call = $.getJSON('http://wp.watering.dev.10.0.0.170.xip.io/index.php');
     call.then(function(data) {
             console.log(data);
         });
     call.fail(console.log("Error retrieving file."));
 
     // 'http://wp.watering.dev.10.0.0.170.xip.io?filename=teste'
+    // 
+    
+    $.ajax({
+      url: 'http://wp.watering.dev.10.0.0.170.xip.io/process-data.php',
+      type: 'post',
+      data: {"input-data" : JSON.stringify(this.fields)},
+      success: function(data){
+        // do something with data that came back-
+      }
+    });
 
 });

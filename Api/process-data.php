@@ -1,3 +1,5 @@
+<?php
+
 // Writes data to .txt in order to send it to octave
 
 header('HTTP/1.1 200' );
@@ -10,3 +12,5 @@ $myfile = fopen("cenas.txt", "w") or die("Unable to open file!");
 $txt = "Jane Doe\n";
 fwrite($myfile, $txt);
 fclose($myfile);
+
+?>
