@@ -8,9 +8,17 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, WCTrustedToken, userId, WCToken, PersonalizationID, AUTHUSER, Primarynum');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, PUT');
 
-$myfile = fopen("cenas.txt", "w") or die("Unable to open file!");
+$meuobjecto = json_decode($_POST['input-data']);
+var_dump($meuobjecto);
+
+
+
+
+$myfile = fopen("cenas.txt", "w") or die("Erro ao criar ficheiro!");
 $txt = "Jane Doe\n";
 fwrite($myfile, $txt);
 fclose($myfile);
+
+print('{}');
 
 ?>

@@ -1,12 +1,5 @@
 <?php
 
-// Write to file
-// $myfile = fopen($jsonFile, "w") or die("Unable to open file!");
-// fwrite($myfile, $txt);
-// $txt = "Jane Doe\n";
-// fclose($myfile);
-
-
 // Retrieves the file 
 
 $jsonFile = 'Repositorio/teste.json';

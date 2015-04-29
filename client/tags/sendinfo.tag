@@ -127,16 +127,7 @@
       });
 
     // Format data into json and send it to octave
-        
-    // $.ajax({
-    //   url: 'http://wp.watering.dev.10.0.0.170.xip.io/process-data.php',
-    //   type: 'post',
-    //   data: {"input-data" : JSON.stringify(this.fields)},
-    //   success: function(data){
-    //     // do something with data that came back-
-    //   }
-    // });
-
+    
     // Receive the output json from octave
 	
 	
