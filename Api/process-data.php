@@ -1,6 +1,6 @@
 <?php
 
-// Writes data to .txt in order to send it to octave
+// Writes data to .txt and stores it on a file
 
 header('HTTP/1.1 200' );
 header('Content-Type: application/json');
@@ -9,15 +9,16 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, PUT');
 
 echo "entrou no process-data php";
+echo $_POST['input-data'];
 
 $meuobjecto = json_decode($_POST['input-data']);
 var_dump($meuobjecto);
 
-echo $meuobjecto;
+//echo $meuobjecto;
 
 
 $myfile = fopen("cenas.txt", "w") or die("Erro ao criar ficheiro!");
-$txt = "cenas\n";
+$txt = "cenas 7\n";
 fwrite($myfile, $txt);
 fclose($myfile);
 

@@ -1,6 +1,6 @@
 <?php
 
-// Retrieves the file 
+// Retrieves the file exported by octave
 
 $jsonFile = 'Repositorio/teste.json';
 

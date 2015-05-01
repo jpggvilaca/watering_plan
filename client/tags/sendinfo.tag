@@ -2,41 +2,45 @@
 
 	<h3>Por favor insira os seus dados </h3>
 
-    <p>Zona:</p>
-    <select id="zone" onchange={ submitted }>
-      <option value="">Escolha a zona</option>
-      <option each="{ zona, i in  fields.zone }" value="{ zona }">{ zona }</option>
-    </select>
+  <form method="post" action=''>
+      <p>Zona:</p>
+      <select id="zone" onchange={ submitted } name="thezone">
+        <option value="">Escolha a zona</option>
+        <option each="{ zona, i in  fields.zone }" value="{ zona }">{ zona }</option>
+      </select>
 
-  <p>Planta:</p>
-  <select id="flower" onchange={ submitted }>
-      <option value="">Escolha a planta</option>
-      <option each="{ flower, i in  fields.flower }" value="{ flower }">{ flower }</option>
-    </select>
-  <p>Data de Inicio:</p>
+      <p>Planta:</p>
+      <select id="flower" onchange={ submitted }>
+          <option value="">Escolha a planta</option>
+          <option each="{ flower, i in  fields.flower }" value="{ flower }">{ flower }</option>
+        </select>
+      <p>Data de Inicio:</p>
 
-  <p>Mês:</p>
-    <select id="startMonth" onchange={ submitted }>
-      <option value="">Escolha o mês</option>
-      <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
-    </select>
+      <p>Mês:</p>
+        <select id="startMonth" onchange={ submitted }>
+          <option value="">Escolha o mês</option>
+          <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
+        </select>
 
-  <p>Dia</p>
-  <input type="number" value="1" id="diainicial" oninput={ onInput }></input>
+      <p>Dia</p>
+      <input type="number" value="1" id="diainicial" oninput={ onInput }></input>
 
-  <p>Data de Fim:</p>
-  <p>Mes:</p>
-    <select id="endMonth" onchange={ submitted }>
-      <option value="">Escolha o mês</option>
-      <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
-    </select>
+      <p>Data de Fim:</p>
+      <p>Mes:</p>
+        <select id="endMonth" onchange={ submitted }>
+          <option value="">Escolha o mês</option>
+          <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
+        </select>
 
-  <p>Dia</p>
-  <input type="number" value="1" id="diafinal" oninput={ onInput }></input>
-  <button type="button" onclick={ sendData }>Gerar gráfico</button>
+      <p>Dia</p>
+      <input type="number" value="1" id="diafinal" oninput={ onInput }></input>
+      <button type="button" onclick={ sendData }>Gerar gráfico</button>
 
-  <p>Local</p>
-  <input type="text" value="" id="local" oninput={ onInputPlace }></input>
+      <p>Local</p>
+      <input type="text" value="" id="local" oninput={ onInputPlace }></input>
+
+    <input type="submit" name="submit" onclick={ writeToFile }/>
+  </form>
 	
 	<div class="results">
 		<h2>Escolheu:</h2>
@@ -133,13 +137,16 @@
 
     // Format input data into json and write it to txt file
 
-    writeToFile() {
+    writeToFile(e) {
+
+      e.preventDefault();
 
       var sendDataToText = $.ajax({
-        url: 'http://localhost:80/process-data.php',
-        type: 'POST',
-        data: {"input-data" : JSON.stringify(this.fields)},
-        dataType: 'json',
+        url: "http://localhost:4000/process-data.php",
+        type: "POST",
+        data: { 'input-data': this.fields },
+        cache: false,
+        dataType: "json",
         success: function(data){
           console.log('call to process-data successful');
           return;
@@ -147,7 +154,7 @@
         error: function() { console.log("process-data falhou"); return; }
       });
 
-      sendDataToText.abort();
+      //sendDataToText.abort();
 
     }
 
@@ -155,7 +162,7 @@
 
     receiveFromOctave() {
 
-      var callFromOctave = $.getJSON('http://localhost:80/index.php');
+      var callFromOctave = $.getJSON('http://localhost:4000/index.php');
       callFromOctave.done(function(data) {
               console.log("call to index php successful");
               return;
