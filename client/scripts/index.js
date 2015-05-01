@@ -1,9 +1,6 @@
 $(function () {
 
-    // Chart logic
-
-
-   // Data to be inserted onto the chart object
+ // Data to be inserted onto the chart object
    
    var data = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -41,38 +38,3 @@ $(function () {
 
 // Server gen: http://wp.watering.dev.10.0.0.170.xip.io
 // Server home: http://localhost:80
-
-
-// Makes an api call to the server to get the content of the file (output from octave)
-    /*var callToWeather = $.getJSON('http://localhost:80/index.php');
-    callToWeather.done(function(data) {
-            console.log("call to index php successful");
-            return;
-        });
-    callToWeather.fail(function() { console.log("Error retrieving file."); return; });
-
-    callToWeather.abort();
-
-    // Makes the ajax call to write data to file
-    // stringify: js -> json
-    // parse: json -> js
-
-    // esta call era aqui
-
-    /*
-
-    var sendDataToText = $.ajax({
-      url: 'http://localhost:80/process-data.php',
-      type: 'post',
-      data: {"input-data" : JSON.stringify(fields)},
-      dataType: 'json',
-      success: function(data){
-        console.log('call to process-data successful');
-        return;
-      },
-      error: function() { console.log("falhou"); return; }
-    });
-
-    sendDataToText.abort();
-
-    */

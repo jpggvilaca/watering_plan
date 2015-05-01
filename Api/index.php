@@ -8,6 +8,8 @@ $jsonFile = 'Repositorio/teste.json';
 //     $jsonFile = 'Teste/'.$_GET['filename'].'.json';
 // }
 
+echo "entrou no index php";
+
 $data = file_get_contents($jsonFile);
 
 

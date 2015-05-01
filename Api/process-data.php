@@ -8,6 +8,8 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, WCTrustedToken, userId, WCToken, PersonalizationID, AUTHUSER, Primarynum');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, PUT');
 
+echo "entrou no process-data php";
+
 $meuobjecto = json_decode($_POST['input-data']);
 var_dump($meuobjecto);
 

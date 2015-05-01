@@ -1,53 +1,48 @@
 <sendinfo>
 
 	<h3>Por favor insira os seus dados </h3>
-  Zona:
+
+    <p>Zona:</p>
     <select id="zone" onchange={ submitted }>
       <option value="">Escolha a zona</option>
       <option each="{ zona, i in  fields.zone }" value="{ zona }">{ zona }</option>
     </select>
-  <br>
-  Planta:
+
+  <p>Planta:</p>
   <select id="flower" onchange={ submitted }>
       <option value="">Escolha a planta</option>
       <option each="{ flower, i in  fields.flower }" value="{ flower }">{ flower }</option>
     </select>
-  <br>
-  <br>
-  Data de Inicio:
-  <br>
-  Mes:
+  <p>Data de Inicio:</p>
+
+  <p>Mês:</p>
     <select id="startMonth" onchange={ submitted }>
       <option value="">Escolha o mês</option>
       <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
     </select>
-  <br>
-  Dia
+
+  <p>Dia</p>
   <input type="number" value="1" id="diainicial" oninput={ onInput }></input>
-  <br>
-  <br>
-  Data de Fim:
-  <br>
-  Mes:
+
+  <p>Data de Fim:</p>
+  <p>Mes:</p>
     <select id="endMonth" onchange={ submitted }>
       <option value="">Escolha o mês</option>
       <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
     </select>
-  <br>
-  Dia
+
+  <p>Dia</p>
   <input type="number" value="1" id="diafinal" oninput={ onInput }></input>
-  <br/>
   <button type="button" onclick={ sendData }>Gerar gráfico</button>
-  <br>
+
+  <p>Local</p>
   <input type="text" value="" id="local" oninput={ onInputPlace }></input>
 	
 	<div class="results">
-		<h1>Escolheu:</h1>
-		<br/>
+		<h2>Escolheu:</h2>
 		<div class="col-1">
-			Zona: { zone } <br/>
-			Planta:{ flower } <br/>
-      <br/>
+			Zona: { zone }
+			Planta:{ flower }
 			<p if={ daysSent } >Data: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
       <p>Latitude: { this.lat } </p>
       <p>Longitude: { this.lon } </p>
@@ -56,6 +51,8 @@
 
 	<script>
 	
+    // Variable declaration
+
 		self = this;
 		this.zone = '';
 		this.flower = '';
@@ -78,7 +75,9 @@
         $('#myChart').addClass('hidechart');
     });
 
+
 		// Get the data from the user
+
 		submitted(e) {
 			var ID = $(e.target).attr('id');
 
@@ -111,7 +110,8 @@
 		};
 
     onInputPlace(e) {
-      this.local = e.target.value.charAt(0).toUpperCase() + string.slice(1);
+      var string = e.target.value;
+      this.local = string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     sendData(e) {
@@ -119,39 +119,52 @@
         $('.col-1').css('color', 'red');
     };
 	
-		// Weather API logic
+		// Weather API call
 
-    var weatherData = $.getJSON('http://api.openweathermap.org/data/2.5/weather?q='+ this.local + ",PT", function(data) {
-        this.lat = data.coord.lat;
-        this.lon = data.coord.lon;
+    weatherCall() {
+
+      var url = 'http://api.openweathermap.org/data/2.5/weather?q='+ this.local + ',PT';
+
+      var weatherData = $.getJSON(url, function(data) {
+          this.lat = data.coord.lat;
+          this.lon = data.coord.lon;
+        });
+    }
+
+    // Format input data into json and write it to txt file
+
+    writeToFile() {
+
+      var sendDataToText = $.ajax({
+        url: 'http://localhost:80/process-data.php',
+        type: 'POST',
+        data: {"input-data" : JSON.stringify(this.fields)},
+        dataType: 'json',
+        success: function(data){
+          console.log('call to process-data successful');
+          return;
+        },
+        error: function() { console.log("process-data falhou"); return; }
       });
 
-    // Format data into json and send it to octave
+      sendDataToText.abort();
 
-    var sendDataToText = $.ajax({
-      url: 'http://localhost:80/process-data.php',
-      type: 'post',
-      data: {"input-data" : JSON.stringify(this.fields)},
-      dataType: 'json',
-      success: function(data){
-        console.log('call to process-data successful');
-        return;
-      },
-      error: function() { console.log("falhou"); return; }
-    });
-
-    sendDataToText.abort();
+    }
 
     // Receive the output json from octave
 
-    var callFromOctave = $.getJSON('http://localhost:80/index.php');
-    callFromOctave.done(function(data) {
-            console.log("call to index php successful");
-            return;
-        });
-    callFromOctave.fail(function() { console.log("Error retrieving file."); return; });
+    receiveFromOctave() {
 
-    callFromOctave.abort();
+      var callFromOctave = $.getJSON('http://localhost:80/index.php');
+      callFromOctave.done(function(data) {
+              console.log("call to index php successful");
+              return;
+          });
+      callFromOctave.fail(function() { console.log("Error index-php file."); return; });
+
+      callFromOctave.abort();
+
+    }
 	
 		// Display the result to the user
 
