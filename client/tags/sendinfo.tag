@@ -70,9 +70,9 @@
     this.local = "";
 
     this.fields = {
-      "zone": ["DouroMinho","TrasosMontes", "BeiraLitoral", "BeiraInterior"],
-      "flower": ["Milho Grao", "Milho", "Prado", "Batata", "Couve", "Tomateiro", "Pessegueiro", "Pomoideas", "Vinha"],
-      "Months": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+      'zone': ['DouroMinho','TrasosMontes', 'BeiraLitoral', 'BeiraInterior'],
+      'flower': ['Milho Grao', 'Milho', 'Prado', 'Batata', 'Couve', 'Tomateiro', 'Pessegueiro', 'Pomoideas', 'Vinha'],
+      'Months': ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
     };
 
     this.on('mount', function() {
@@ -142,11 +142,11 @@
       e.preventDefault();
 
       var sendDataToText = $.ajax({
-        url: "http://localhost:4000/process-data.php",
-        type: "POST",
-        data: { 'input-data': this.fields },
+        url: 'http://localhost:4000/process-data.php',
+        type: 'post',
+        data: { 'input-data': JSON.stringify(this.fields) },
         cache: false,
-        dataType: "json",
+        dataType: 'json',
         success: function(data){
           console.log('call to process-data successful');
           return;
