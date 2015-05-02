@@ -1,0 +1,36 @@
+stdClass::__set_state(array(
+   'zone' => 
+  array (
+    0 => 'DouroMinho',
+    1 => 'TrasosMontes',
+    2 => 'BeiraLitoral',
+    3 => 'BeiraInterior',
+  ),
+   'flower' => 
+  array (
+    0 => 'Milho Grao',
+    1 => 'Milho',
+    2 => 'Prado',
+    3 => 'Batata',
+    4 => 'Couve',
+    5 => 'Tomateiro',
+    6 => 'Pessegueiro',
+    7 => 'Pomoideas',
+    8 => 'Vinha',
+  ),
+   'Months' => 
+  array (
+    0 => 'Janeiro',
+    1 => 'Fevereiro',
+    2 => 'Março',
+    3 => 'Abril',
+    4 => 'Maio',
+    5 => 'Junho',
+    6 => 'Julho',
+    7 => 'Agosto',
+    8 => 'Setembro',
+    9 => 'Outubro',
+    10 => 'Novembro',
+    11 => 'Dezembro',
+  ),
+))

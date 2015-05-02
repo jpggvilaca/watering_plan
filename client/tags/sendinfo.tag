@@ -148,13 +148,9 @@
         cache: false,
         success: function(data){
           console.log('call to process-data successful');
-          console.log(self.fields);
-          console.log(data);
         },
         error: function(jqXHR, textStatus, errorThrown) { 
-          console.log("process-data falhou");
-          console.log(self.fields);
-          console.log(textStatus, errorThrown);
+          console.log("call to process-data failed");
         }
       });
     }
