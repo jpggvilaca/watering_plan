@@ -70,9 +70,9 @@
     this.local = "";
 
     this.fields = {
-      'zone': ['DouroMinho','TrasosMontes', 'BeiraLitoral', 'BeiraInterior'],
-      'flower': ['Milho Grao', 'Milho', 'Prado', 'Batata', 'Couve', 'Tomateiro', 'Pessegueiro', 'Pomoideas', 'Vinha'],
-      'Months': ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+      "zone": ["DouroMinho","TrasosMontes", "BeiraLitoral", "BeiraInterior"],
+      "flower": ["Milho Grao", "Milho", "Prado", "Batata", "Couve", "Tomateiro", "Pessegueiro", "Pomoideas", "Vinha"],
+      "Months": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
     };
 
     this.on('mount', function() {
@@ -127,9 +127,9 @@
 
     weatherCall() {
 
-      var url = 'http://api.openweathermap.org/data/2.5/weather?q='+ this.local + ',PT';
+      url = 'http://api.openweathermap.org/data/2.5/weather?q='+ this.local + ',PT';
 
-      var weatherData = $.getJSON(url, function(data) {
+      weatherData = $.getJSON(url, function(data) {
           this.lat = data.coord.lat;
           this.lon = data.coord.lon;
         });
@@ -137,25 +137,26 @@
 
     // Format input data into json and write it to txt file
 
-    writeToFile(e) {
+    writeToFile() {
 
-      e.preventDefault();
+      self = this;
 
-      var sendDataToText = $.ajax({
+      $.ajax({
         url: 'http://localhost:4000/process-data.php',
         type: 'post',
-        data: { 'input-data': JSON.stringify(this.fields) },
+        data: { 'input-data': JSON.stringify(self.fields) },
         cache: false,
-        dataType: 'json',
         success: function(data){
           console.log('call to process-data successful');
-          return;
+          console.log(self.fields);
+          console.log(data);
         },
-        error: function() { console.log("process-data falhou"); return; }
+        error: function(jqXHR, textStatus, errorThrown) { 
+          console.log("process-data falhou");
+          console.log(self.fields);
+          console.log(textStatus, errorThrown);
+        }
       });
-
-      //sendDataToText.abort();
-
     }
 
     // Receive the output json from octave
@@ -165,11 +166,8 @@
       var callFromOctave = $.getJSON('http://localhost:4000/index.php');
       callFromOctave.done(function(data) {
               console.log("call to index php successful");
-              return;
           });
-      callFromOctave.fail(function() { console.log("Error index-php file."); return; });
-
-      callFromOctave.abort();
+      callFromOctave.fail(function() { console.log("Error index-php file."); });
 
     }
 	
