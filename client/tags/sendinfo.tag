@@ -1,73 +1,98 @@
 <sendinfo>
 
-	<h3>Por favor insira os seus dados </h3>
+  <div class="step1" if={ step1 }>
 
-  <form method="post" action=''>
-      <p>Zona:</p>
-      <select id="zone" onchange={ submitted } name="thezone">
-        <option value="">Escolha a zona</option>
-        <option each="{ zona, i in  fields.zone }" value="{ zona }">{ zona }</option>
-      </select>
+  	<h3>Por favor insira os seus dados </h3>
 
-      <p>Planta:</p>
-      <select id="flower" onchange={ submitted }>
-          <option value="">Escolha a planta</option>
-          <option each="{ flower, i in  fields.flower }" value="{ flower }">{ flower }</option>
-        </select>
-      <p>Data de Inicio:</p>
+    <form method="post" action=''>
+      <div class="local">
 
-      <p>Mês:</p>
-        <select id="startMonth" onchange={ submitted }>
-          <option value="">Escolha o mês</option>
-          <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
-        </select>
+        <h5>Localização</h5>
+        <p>Escolha entre inserir a cidade ou coordenadas</p>
+        <p>Nota: ao escolher cidade em vez de coordenadas os dados meteorológicos podem não ser tão precisos</p>
+        <p>Método:</p>
+        <select id="metodoLocal" onchange={ localMethod }>
+            <option value="">Escolha o método</option>
+            <option value="Cidade">Cidade</option>
+            <option value="Coordenadas">Coordenadas</option>
+          </select>
 
-      <p>Dia</p>
-      <input type="number" value="1" id="diainicial" oninput={ onInput }></input>
+        <div class="coordenadas" if={ choseCoords }>
+          <p>Coordenadas</p>
+          <input type="number" value="" placeholder="0" id="latitude"></input>
+          <input type="number" value="" placeholder="0" id="longitude"></input>
+        </div>
 
-      <p>Data de Fim:</p>
-      <p>Mes:</p>
-        <select id="endMonth" onchange={ submitted }>
-          <option value="">Escolha o mês</option>
-          <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
-        </select>
+        <div class="cidade" if={ choseCity }>
+          <input type="text" value="" placeholder="Cidade" id="local" oninput={ onInputPlace }></input>
+        </div>
 
-      <p>Dia</p>
-      <input type="number" value="1" id="diafinal" oninput={ onInput }></input>
-      <button type="button" onclick={ sendData }>Gerar gráfico</button>
+      </div>
 
-      <p>Local</p>
-      <input type="text" value="" id="local" oninput={ onInputPlace }></input>
+      <div class="time">
 
-    <input type="submit" name="submit" onclick={ writeToFile }/>
-  </form>
-	
-	<div class="results">
-		<h2>Escolheu:</h2>
-		<div class="col-1">
-			Zona: { zone }
-			Planta:{ flower }
-			<p if={ daysSent } >Data: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
-      <p>Latitude: { this.lat } </p>
-      <p>Longitude: { this.lon } </p>
-		</div>
-	</div>
+        <h5>Período</h5>
+
+        <p>Mês inicial:</p>
+          <select id="startMonth" onchange={ monthSubmit }>
+            <option value="">Escolha o mês</option>
+            <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
+          </select>
+
+        <p>Dia inicial</p>
+        <input type="number" value="" placeholder="0" id="diainicial" oninput={ onInputDays }></input>
+
+        <p>Mes final:</p>
+          <select id="endMonth" onchange={ monthSubmit }>
+            <option value="">Escolha o mês</option>
+            <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
+          </select>
+
+        <p>Dia final</p>
+        <input type="number" value="" placeholder="0" id="diafinal" oninput={ onInputDays }></input>
+
+      </div>
+
+      <div class="hydric">
+        <h5>Características da planta</h5>
+
+        <p>Xmin</p>
+        <input type="number" value="" placeholder="0" id="Xmin"></input>
+        <p>Coeficiente de evapotranspiração</p>
+        <input type="number" value="" placeholder="0" id="evapo"></input>
+        <p>Constante de solo</p>
+        <input type="number" value="" placeholder="0" id="ground"></input>
+        <p>Constante do tipo de rega</p>
+        <input type="number" value="" placeholder="0" id="typeofwater"></input>
+        <p>Costa ou Interior</p>
+        <input type="text" value="" placeholder="Costa/Interior" id="coast-interior"></input>
+
+      </div>
+
+      <input type="submit" name="submit" onclick={ formSubmitted }/>
+    </form>
+  	
+  	<div class="results" if={ step2 } >
+  		<h2>Os seus dados:</h2>
+  		<div class="col-1">
+  			Local: 
+        <p>Latitude: { this.lat } </p>
+        <p>Longitude: { this.lon } </p>
+  			Período:
+  			<p>Data: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
+  		</div>
+  	</div>
+  </div>
 
 	<script>
 	
     // Variable declaration
 
 		self = this;
-		this.zone = '';
-		this.flower = '';
-		this.startMonth = '';
-		this.startDay = '';
-    this.endDay = '';
-    this.endMonth = '';
-    this.daysSent = false;
-    this.lon =  0;
-    this.lat =  0;
-    this.local = "";
+    this.step1 = true;
+    this.choseCity = this.choseCoords = this.step2 = false;
+		this.startMonth = this.startDay = this.endDay = this.endMonth = this.city = '';
+    this.lon = this.lat = 0;
 
     this.fields = {
       "zone": ["DouroMinho","TrasosMontes", "BeiraLitoral", "BeiraInterior"],
@@ -82,52 +107,59 @@
 
 		// Get the data from the user
 
-		submitted(e) {
+    localMethod(e) {
+      if ($(e.target).val() == 'Coordenadas') { 
+        this.choseCoords = true; 
+        this.choseCity = false;
+      }
+      else { 
+        this.choseCity = true;
+        this.choseCoords = false;
+      }
+    }
+
+    onInputCoords(e) {
+        var ID = $(e.target).attr('id');
+        if(ID == 'latitude')
+        this.lat = $(e.target).val();
+      if(ID == 'longitude')
+        this.lon = $(e.target).val();
+    }
+
+		monthSubmit(e) {
 			var ID = $(e.target).attr('id');
 
-			if(ID == 'zone')
-				self.zone = $('#zone :selected').text();
-				self.update();
-
-			if(ID == 'flower')
-				self.flower = $('#flower :selected').text();
-				self.update();
 			if(ID == 'startMonth')
-				self.startMonth = $('#startMonth :selected').text();
-				self.update();
+				this.startMonth = $(e.target).val();
       if(ID == 'endMonth')
-        self.endMonth = $('#endMonth :selected').text();
-        self.update();
+        this.endMonth = $(e.target).val();
 		};
 
-		onInput(e) {
+		onInputDays(e) {
       var ID = $(e.target).attr('id');
 
 			if(ID == 'diainicial')
-        self.startDay = e.target.value;
-        self.update();
+        this.startDay = $(e.target).val();
       if(ID == 'diafinal')
-        self.endDay = e.target.value;
-        this.daysSent = true;
-        self.update();
-
+        this.endDay = $(e.target).val();
 		};
 
     onInputPlace(e) {
-      var string = e.target.value;
-      this.local = string.charAt(0).toUpperCase() + string.slice(1);
+      var string = $(e.target).val();
+      this.city = string.charAt(0).toUpperCase() + string.slice(1);
     }
-
-    sendData(e) {
-        $('#myChart').removeClass('hidechart');
-        $('.col-1').css('color', 'red');
-    };
 	
 		// Weather API call
 
     weatherCall() {
 
-      url = 'http://api.openweathermap.org/data/2.5/weather?q='+ this.local + ',PT';
+      if( this.choseCity ) {
+        url = 'http://api.openweathermap.org/data/2.5/weather?q='+ this.city + ',PT';
+      }
+
+      else {
+        url = 'http://api.openweathermap.org/data/2.5/weather'+'lat='+this.lat+'&'+'lon='+this.lon;
+      }
 
       weatherData = $.getJSON(url, function(data) {
           this.lat = data.coord.lat;
@@ -144,7 +176,7 @@
       $.ajax({
         url: 'http://localhost:4000/process-data.php',
         type: 'post',
-        data: { 'input-data': JSON.stringify(self.fields) },
+        data: { 'input-data': JSON.stringify(this.fields) },
         cache: false,
         success: function(data){
           console.log('call to process-data successful');
@@ -159,15 +191,38 @@
 
     receiveFromOctave() {
 
-      var callFromOctave = $.getJSON('http://localhost:4000/index.php');
-      callFromOctave.done(function(data) {
-              console.log("call to index php successful");
-          });
-      callFromOctave.fail(function() { console.log("Error index-php file."); });
+      self = this;
+
+      $.ajax({
+        url: 'http://localhost:4000/index.php',
+        type: 'get',
+        data: { 'input-data': JSON.stringify(self.fields) },
+        success: function(data){
+          console.log('call to process-data successful');
+        },
+        error: function(jqXHR, textStatus, errorThrown) { 
+          console.log("call to process-data failed");
+        }
+      });
+
+    }
+
+    // After form is submitted
+
+    formSubmitted(e) {
+      this.step1 = false;
+      this.step2 = true;
+
+      self.update();
+
 
     }
 	
 		// Display the result to the user
+
+    showChart(e) {
+        $('#myChart').removeClass('hidechart');
+    };
 
 	</script>
 
