@@ -17,7 +17,7 @@
             <option value="Coordenadas">Coordenadas</option>
           </select>
 
-        <div class="coordenadas" if={ choseCoords }>
+        <div class="coordenadas" onchange={ onInputCoords } if={ choseCoords }>
           <p>Coordenadas</p>
           <input type="number" value="" placeholder="0" id="latitude"></input>
           <input type="number" value="" placeholder="0" id="longitude"></input>
@@ -77,14 +77,25 @@
   <div class="results" if={ step2 } >
       <h2>Os seus dados:</h2>
       <div class="col-1">
-        Local: 
-        <p>Latitude: { this.lat } </p>
-        <p>Longitude: { this.lon } </p>
-        Período:
+        <h5>Local:</h5> 
+        <p if={ choseCity }>Cidade : { this.city }</p>
+        <p if={ choseCoords }>Latitude: { this.lat } </p>
+        <p if={ choseCoords }>Longitude: { this.lon } </p>
+        <h5>Período:</h5>
         <p>Data: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
+        <h5>Necessidade hídricas</h5>
+        <p>{ this.Xmin }</p>
+        <p>{ this.evapo }</p>
+        <p>{ this.ground }</p>
+        <p>{ this.typeofwater }</p>
+        <p>{ this.costaInterior }</p>
+        <p>teste: { this.teste }</p>
+
       </div>
 
-      <button type="button">Introduzir novos dados</button>
+      <button type="button" onclick={ insNewData }>Introduzir novos dados</button>
+      <button type="button" onclick={ writeToFile } >Enviar dados</button>
+      <button type="button" onclick={ showChart } >Gerar gráfico</button>
     </div>
 
 	<script>
@@ -92,10 +103,11 @@
     // Variable declaration
 
 		self = this;
+    this.teste = '';
     this.step1 = true;
     this.choseCity = this.choseCoords = this.step2 = false;
-		this.startMonth = this.startDay = this.endDay = this.endMonth = this.city = '';
-    this.lon = this.lat = 0;
+		this.startMonth = this.startDay = this.endDay = this.endMonth = this.city = this.costaInterior = '';
+    this.lon = this.lat = this.userLat = this.userLon = this.Xmin = this.evapo = this.ground = this.typeofwater = 0;
 
     this.fields = {
       "zone": ["DouroMinho","TrasosMontes", "BeiraLitoral", "BeiraInterior"],
@@ -110,6 +122,14 @@
 
 		// Get the data from the user
 
+    onInputCoords(e) {
+        var ID = $(e.target).attr('id');
+        if(ID == 'latitude')
+        this.userLat = $(e.target).val();
+        if(ID == 'longitude')
+        this.userLon = $(e.target).val();
+    }
+
     localMethod(e) {
       if ($(e.target).val() == 'Coordenadas') { 
         this.choseCoords = true; 
@@ -118,15 +138,9 @@
       else { 
         this.choseCity = true;
         this.choseCoords = false;
-      }
-    }
 
-    onInputCoords(e) {
-        var ID = $(e.target).attr('id');
-        if(ID == 'latitude')
-        this.lat = $(e.target).val();
-      if(ID == 'longitude')
-        this.lon = $(e.target).val();
+        this.city = $(e.target).val();
+      }
     }
 
 		monthSubmit(e) {
@@ -151,23 +165,56 @@
       var string = $(e.target).val();
       this.city = string.charAt(0).toUpperCase() + string.slice(1);
     }
+
+    insNewData() {
+      this.step2 = false;
+      this.step1 = true;
+
+      this.update();
+    }
+
+    // After form is submitted
+
+    formSubmitted(e) {
+      this.step1 = false;
+      this.step2 = true;
+
+
+      this.weatherCall()
+      self.update();
+    }
 	
 		// Weather API call
 
     weatherCall() {
 
+      self = this;
+      urlResult = '';
+
       if( this.choseCity ) {
-        url = 'http://api.openweathermap.org/data/2.5/weather?q='+ this.city + ',PT';
+        urlResult = 'http://api.openweathermap.org/data/2.5/weather?q='+ this.city + ',PT';
       }
 
       else {
-        url = 'http://api.openweathermap.org/data/2.5/weather'+'lat='+this.lat+'&'+'lon='+this.lon;
+        urlResult = 'http://api.openweathermap.org/data/2.5/weather?'+'lat='+this.lat+'&'+'lon='+this.lon;
+        console.log("lon");
       }
 
-      weatherData = $.getJSON(url, function(data) {
-          this.lat = data.coord.lat;
-          this.lon = data.coord.lon;
-        });
+      $.ajax({
+        url: urlResult,
+        async: false,
+        dataType: 'json',
+        success: function(data) {
+          this.teste = data.sys.country;
+          console.log("Data retrived successfuly!");
+          console.log(this.teste);
+        }
+      });
+
+      console.log(this.teste);
+      console.log("wow");
+
+      this.update();
     }
 
     // Format input data into json and write it to txt file
@@ -209,21 +256,10 @@
       });
 
     }
-
-    // After form is submitted
-
-    formSubmitted(e) {
-      this.step1 = false;
-      this.step2 = true;
-
-      self.update();
-
-
-    }
 	
 		// Display the result to the user
 
-    showChart(e) {
+    showChart() {
         $('#myChart').removeClass('hidechart');
     };
 
