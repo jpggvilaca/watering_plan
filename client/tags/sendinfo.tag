@@ -71,18 +71,21 @@
 
       <input type="submit" name="submit" onclick={ formSubmitted }/>
     </form>
-  	
-  	<div class="results" if={ step2 } >
-  		<h2>Os seus dados:</h2>
-  		<div class="col-1">
-  			Local: 
+  
+  </div>
+
+  <div class="results" if={ step2 } >
+      <h2>Os seus dados:</h2>
+      <div class="col-1">
+        Local: 
         <p>Latitude: { this.lat } </p>
         <p>Longitude: { this.lon } </p>
-  			Período:
-  			<p>Data: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
-  		</div>
-  	</div>
-  </div>
+        Período:
+        <p>Data: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
+      </div>
+
+      <button type="button">Introduzir novos dados</button>
+    </div>
 
 	<script>
 	
