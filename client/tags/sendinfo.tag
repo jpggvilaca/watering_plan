@@ -89,7 +89,7 @@
         <p>{ this.ground }</p>
         <p>{ this.typeofwater }</p>
         <p>{ this.costaInterior }</p>
-        <p>teste: { this.teste }</p>
+        <p>value: { dataValue }</p>
 
       </div>
 
@@ -190,6 +190,7 @@
 
       self = this;
       urlResult = '';
+      dataValue = '';
 
       if( this.choseCity ) {
         urlResult = 'http://api.openweathermap.org/data/2.5/weather?q='+ this.city + ',PT';
@@ -205,14 +206,14 @@
         async: false,
         dataType: 'json',
         success: function(data) {
-          this.teste = data.sys.country;
-          console.log("Data retrived successfuly!");
+          dataValue = data.sys.country;
+          this.teste = dataValue;
+          console.log("Data retrieved successfuly!");
           console.log(this.teste);
         }
       });
 
-      console.log(this.teste);
-      console.log("wow");
+      console.log(dataValue);
 
       this.update();
     }
