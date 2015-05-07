@@ -77,26 +77,23 @@
   <div class="results" if={ step2 } >
       <h2>Os seus dados:</h2>
       <div class="col-1">
-        <h5>Local:</h5> 
         <p if={ choseCity }>Cidade : { this.city }</p>
         <p if={ choseCoords }>Latitude: { this.lat } </p>
         <p if={ choseCoords }>Longitude: { this.lon } </p>
-        <h5>Período:</h5>
-        <p>Data: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
+        <p>Período: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
         <h5>Necessidade hídricas</h5>
         <p>{ this.Xmin }</p>
-        <p>{ this.evapo }</p>
+        <!--<p>{ this.evapo }</p>
         <p>{ this.ground }</p>
         <p>{ this.typeofwater }</p>
-        <p>{ this.costaInterior }</p>
-        <p>value: { dataValue }</p>
+        <p>{ this.costaInterior }</p>-->
 
       </div>
 
       <button type="button" onclick={ insNewData }>Introduzir novos dados</button>
       <button type="button" onclick={ writeToFile } >Enviar dados</button>
-      <button type="button" onclick={ showChart } >Gerar gráfico</button>
-    </div>
+      <button type="button" if="{ dataSent }" onclick={ showChart } >Gerar gráfico</button>
+  </div>
 
 	<script>
 	
@@ -105,7 +102,7 @@
 		self = this;
     this.teste = '';
     this.step1 = true;
-    this.choseCity = this.choseCoords = this.step2 = false;
+    this.choseCity = this.choseCoords = this.step2 = this.dataSent = false;
 		this.startMonth = this.startDay = this.endDay = this.endMonth = this.city = this.costaInterior = '';
     this.lon = this.lat = this.userLat = this.userLon = this.Xmin = this.evapo = this.ground = this.typeofwater = 0;
 
@@ -169,6 +166,8 @@
     insNewData() {
       this.step2 = false;
       this.step1 = true;
+      this.dataSent = false;
+      $('#myChart').addClass('hidechart');
 
       this.update();
     }
@@ -180,7 +179,7 @@
       this.step2 = true;
 
 
-      this.weatherCall()
+      this.weatherCall();
       self.update();
     }
 	
@@ -236,6 +235,9 @@
           console.log("call to process-data failed");
         }
       });
+
+      this.dataSent = true;
+      self.update();
     }
 
     // Receive the output json from octave
@@ -261,8 +263,13 @@
 		// Display the result to the user
 
     showChart() {
-        $('#myChart').removeClass('hidechart');
+        if(this.dataSent) {
+          $('#myChart').removeClass('hidechart');
+        }
     };
+
+// Poder alterar o periodo de tempo dinamicamente no grafico em vez de o user ter que introduzir tudo novamente
+// dados introduzidos aparecer ao lado do grafico
 
 	</script>
 
