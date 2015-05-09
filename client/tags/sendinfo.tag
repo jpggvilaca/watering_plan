@@ -29,6 +29,16 @@
 
       </div>
 
+      <div class="hydric">
+        <h5>Características da planta</h5>
+
+        <select id="typeofplant" onchange={ plantSubmit }>
+            <option value="">Escolha a planta</option>
+            <option each="{ plant, i in  fields.Cultures }" value="{ plant }">{ plant }</option>
+          </select>
+
+      </div>
+
       <div class="time">
 
         <h5>Período</h5>
@@ -53,22 +63,6 @@
 
       </div>
 
-      <div class="hydric">
-        <h5>Características da planta</h5>
-
-        <p>Xmin</p>
-        <input type="number" value="" placeholder="0" id="Xmin"></input>
-        <p>Coeficiente de evapotranspiração</p>
-        <input type="number" value="" placeholder="0" id="evapo"></input>
-        <p>Constante de solo</p>
-        <input type="number" value="" placeholder="0" id="ground"></input>
-        <p>Constante do tipo de rega</p>
-        <input type="number" value="" placeholder="0" id="typeofwater"></input>
-        <p>Costa ou Interior</p>
-        <input type="text" value="" placeholder="Costa/Interior" id="coast-interior"></input>
-
-      </div>
-
       <input type="submit" name="submit" onclick={ formSubmitted }/>
     </form>
   
@@ -82,12 +76,6 @@
         <p if={ choseCoords }>Longitude: { this.lon } </p>
         <p>Período: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
         <h5>Necessidade hídricas</h5>
-        <p>{ this.Xmin }</p>
-        <!--<p>{ this.evapo }</p>
-        <p>{ this.ground }</p>
-        <p>{ this.typeofwater }</p>
-        <p>{ this.costaInterior }</p>-->
-
       </div>
 
       <button type="button" onclick={ insNewData }>Introduzir novos dados</button>
@@ -103,14 +91,21 @@
     this.teste = '';
     this.step1 = true;
     this.choseCity = this.choseCoords = this.step2 = this.dataSent = false;
-		this.startMonth = this.startDay = this.endDay = this.endMonth = this.city = this.costaInterior = '';
-    this.lon = this.lat = this.userLat = this.userLon = this.Xmin = this.evapo = this.ground = this.typeofwater = 0;
+		this.startMonth = this.startDay = this.endDay = this.endMonth = this.city = '';
+    this.lon = this.lat = this.userLat = this.userLon = 0;
+    this.userData = []
 
+    // Object for testing
     this.fields = {
-      "zone": ["DouroMinho","TrasosMontes", "BeiraLitoral", "BeiraInterior"],
-      "flower": ["Milho Grao", "Milho", "Prado", "Batata", "Couve", "Tomateiro", "Pessegueiro", "Pomoideas", "Vinha"],
-      "Months": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+          "Months": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+          "Cultures": ["Algodão","Amendoim","Arroz","Banana","Batata","Beterraba","Cana-de-açucar","Cártamo","Cebola","Citrinos","Couve","Ervilha","Feijão","Feijão-verde","Girassol","Luzema","Melancia","Milho","Oliveira","Pimento","Soja","Sorgo","Tabaco","Tomate","Trigo","Vinha"],
+          "Coeficients": [0.776,0.712,1.3,0.86,0.766,0.786,0.746,0.612,0.81,0.76,0.78,0.88,0.622,0.774,0.736,0.715,0.75,0.726,0.5,0.76,0.74,0.818,0.788,0.76,0.742,0.65],
+          "TypeofWatering": ["Faixas","Canteiros","Sulcos","Gota-a-gota","Miniaspersão","Aspersão"]
     };
+
+
+
+    // The chart is initially hidden
 
     this.on('mount', function() {
         $('#myChart').addClass('hidechart');
@@ -119,6 +114,8 @@
 
 		// Get the data from the user
 
+
+    // Coordinates
     onInputCoords(e) {
         var ID = $(e.target).attr('id');
         if(ID == 'latitude')
@@ -127,6 +124,7 @@
         this.userLon = $(e.target).val();
     }
 
+    // Chosen method - Coords or city
     localMethod(e) {
       if ($(e.target).val() == 'Coordenadas') { 
         this.choseCoords = true; 
@@ -140,6 +138,8 @@
       }
     }
 
+
+    // Submitted month
 		monthSubmit(e) {
 			var ID = $(e.target).attr('id');
 
@@ -149,6 +149,7 @@
         this.endMonth = $(e.target).val();
 		};
 
+    // Submitted days
 		onInputDays(e) {
       var ID = $(e.target).attr('id');
 
@@ -158,11 +159,13 @@
         this.endDay = $(e.target).val();
 		};
 
+    // Submitted city
     onInputPlace(e) {
       var string = $(e.target).val();
       this.city = string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    // When the user wants to introduce new data
     insNewData() {
       this.step2 = false;
       this.step1 = true;
@@ -174,6 +177,7 @@
 
     // After form is submitted
 
+    // Change between steps
     formSubmitted(e) {
       this.step1 = false;
       this.step2 = true;
@@ -182,6 +186,10 @@
       this.weatherCall();
       self.update();
     }
+
+    // Creates a json object with user data
+
+    
 	
 		// Weather API call
 
@@ -202,7 +210,6 @@
 
       $.ajax({
         url: urlResult,
-        async: false,
         dataType: 'json',
         success: function(data) {
           dataValue = data.sys.country;
