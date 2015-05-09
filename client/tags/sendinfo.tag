@@ -10,12 +10,14 @@
         <h5>Localização</h5>
         <p>Escolha entre inserir a cidade ou coordenadas</p>
         <p>Nota: ao escolher cidade em vez de coordenadas os dados meteorológicos podem não ser tão precisos</p>
-        <p>Método:</p>
-        <select id="metodoLocal" onchange={ localMethod }>
-            <option value="">Escolha o método</option>
-            <option value="Cidade">Cidade</option>
-            <option value="Coordenadas">Coordenadas</option>
+        <div class="input-field col s12">
+          <select id="metodoLocal" onchange={ localMethod }>
+              <option value="" disabled selected>Escolha o método</option>
+              <option value="Cidade">Cidade</option>
+              <option value="Coordenadas">Coordenadas</option>
           </select>
+          <label>Método:</label>
+        </div>
 
         <div class="coordenadas" onchange={ onInputCoords } if={ choseCoords }>
           <p>Coordenadas</p>

@@ -4,7 +4,7 @@
 
 body {
   background-color: black;
-  color: aquamarine;
+  color: brown;
   font-family: Arvo, Arial;
 
   ul {
@@ -31,6 +31,13 @@ body {
 	.col-1 {
 		display: inline-block;
 		transition: color 1.5s ease-in-out;
+	}
+}
+
+.step1 {
+	select,
+	input {
+		display: block;
 	}
 }
 
@@ -69,9 +76,9 @@ body {
 	margin: 10px;
 	padding: 10px;
 	display: block;
+	text-align: left;
 
-	p,
-	input {
+	p {
 		display: inline-block;
 	}
 }

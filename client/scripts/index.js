@@ -1,5 +1,8 @@
 $(function () {
 
+ // Materialize initializations
+ $('select').material_select();
+
  // Data to be inserted onto the chart object
    
    var data = {
