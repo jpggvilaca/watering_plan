@@ -7,34 +7,32 @@
     <form method="post" action=''>
       <div class="local">
 
-        <h5>Localização</h5>
-        <p>Escolha entre inserir a cidade ou coordenadas</p>
-        <p>Nota: ao escolher cidade em vez de coordenadas os dados meteorológicos podem não ser tão precisos</p>
-        <div class="input-field col s12">
-          <select id="metodoLocal" onchange={ localMethod }>
-              <option value="" disabled selected>Escolha o método</option>
-              <option value="Cidade">Cidade</option>
-              <option value="Coordenadas">Coordenadas</option>
-          </select>
-          <label>Método:</label>
-        </div>
+        <h4>Localização</h4>
+        <label>Escolha entre inserir a cidade ou coordenadas
+        Nota: ao escolher cidade em vez de coordenadas os dados meteorológicos podem não ser tão precisos</label>
+        <label>Método:</label>
+        <select class="form-control"  id="metodoLocal" onchange={ localMethod }>
+            <option value="" disabled selected>Escolha o método</option>
+            <option value="Cidade">Cidade</option>
+            <option value="Coordenadas">Coordenadas</option>
+        </select>
 
         <div class="coordenadas" onchange={ onInputCoords } if={ choseCoords }>
-          <p>Coordenadas</p>
-          <input type="number" value="" placeholder="0" id="latitude"></input>
-          <input type="number" value="" placeholder="0" id="longitude"></input>
+          <label>Coordenadas</label>
+          <input class="form-control" type="number" value="" placeholder="0" id="latitude"></input>
+          <input class="form-control" type="number" value="" placeholder="0" id="longitude"></input>
         </div>
 
         <div class="cidade" if={ choseCity }>
-          <input type="text" value="" placeholder="Cidade" id="local" oninput={ onInputPlace }></input>
+          <input type="text" class="form-control" value="" placeholder="Cidade" id="local" oninput={ onInputPlace }></input>
         </div>
 
       </div>
 
       <div class="hydric">
-        <h5>Características da planta</h5>
+        <h4>Planta</h4>
 
-        <select id="typeofplant" onchange={ plantSubmit }>
+        <select class="form-control" id="typeofplant" onchange={ plantSubmit }>
             <option value="">Escolha a planta</option>
             <option each="{ plant, i in  fields.Cultures }" value="{ plant }">{ plant }</option>
           </select>
@@ -43,29 +41,29 @@
 
       <div class="time">
 
-        <h5>Período</h5>
+        <h4>Período</h4>
 
-        <p>Mês inicial:</p>
-          <select id="startMonth" onchange={ monthSubmit }>
+        <label>Mês inicial:</label>
+          <select class="form-control" id="startMonth" onchange={ monthSubmit }>
             <option value="">Escolha o mês</option>
             <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
           </select>
 
-        <p>Dia inicial</p>
-        <input type="number" value="" placeholder="0" id="diainicial" oninput={ onInputDays }></input>
+        <label>Dia inicial</label>
+        <input class="form-control" type="number" max="31" min="1" value="" placeholder="0" id="diainicial" oninput={ onInputDays }></input>
 
-        <p>Mes final:</p>
-          <select id="endMonth" onchange={ monthSubmit }>
+        <label>Mes final:</label>
+          <select class="form-control" id="endMonth" onchange={ monthSubmit }>
             <option value="">Escolha o mês</option>
             <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
           </select>
 
-        <p>Dia final</p>
-        <input type="number" value="" placeholder="0" id="diafinal" oninput={ onInputDays }></input>
+        <label>Dia final</label>
+        <input class="form-control" type="number" maxlength="2" value="" placeholder="0" id="diafinal" oninput={ onInputDays }></input>
 
       </div>
 
-      <input type="submit" name="submit" onclick={ formSubmitted }/>
+      <input type="submit" class="btn btn-primary center-block" name="submit" onclick={ formSubmitted }/>
     </form>
   
   </div>
@@ -77,12 +75,12 @@
         <p if={ choseCoords }>Latitude: { this.lat } </p>
         <p if={ choseCoords }>Longitude: { this.lon } </p>
         <p>Período: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
-        <h5>Necessidade hídricas</h5>
+        <h4>Necessidade hídricas</h4>
       </div>
 
-      <button type="button" onclick={ insNewData }>Introduzir novos dados</button>
-      <button type="button" onclick={ writeToFile } >Enviar dados</button>
-      <button type="button" if="{ dataSent }" onclick={ showChart } >Gerar gráfico</button>
+      <button class="btn btn-default" type="button" onclick={ insNewData }>Introduzir novos dados</button>
+      <button class="btn btn-primary" type="button" onclick={ writeToFile } >Enviar dados</i></button>
+      <button class="btn btn-default" type="button" if="{ dataSent }" onclick={ showChart } >Gerar gráfico</button>
   </div>
 
 	<script>

@@ -3,9 +3,8 @@
 }
 
 body {
-  background-color: black;
-  color: brown;
-  font-family: Arvo, Arial;
+  background-color: #eee !important;
+  color: #580000  !important;
 
   ul {
   	list-style: none;
@@ -42,17 +41,19 @@ body {
 }
 
 .results {
-	background-color: grey;
+	background-color: #eee;
 	color: black;
     text-align: left;
     float: left;
     display: inline-block;
     padding-left: 20px;
     min-width: 300px;
-    height: 300px;
+    height: 340px;
+    border: 3px solid #333;
 
 	button {
 		display: block;
+		margin-bottom: 10px;
 	}
 }
 
@@ -60,7 +61,7 @@ body {
 	display: inline-block;
 	margin-left: 20px;
 	width: 400px;
-	height: 300px;
+	height: 340px;
     transition: opacity 2s ease-in-out;
 
     &.hidechart {
@@ -71,7 +72,7 @@ body {
 .local,
 .time,
 .hydric {
-	background-color: #fff;
+	background-color: #009966;
 	color: black;
 	margin: 10px;
 	padding: 10px;
@@ -81,4 +82,27 @@ body {
 	p {
 		display: inline-block;
 	}
+}
+
+.step1 .form-control {
+	width: auto;
+	margin: 0 auto;
+}
+
+.cidade {
+	margin-top: 10px;
+	input {
+		max-width: 164px;
+	}	
+}
+
+.step1 label {
+	display: block;
+	text-align: center;
+}
+
+#diainicial,
+#diafinal {
+	width: 100%;
+	max-width: 143px;
 }
