@@ -4,7 +4,7 @@
 
 body {
   background-color: #eee !important;
-  color: #580000  !important;
+  color: #5f5f5f  !important;
 
   ul {
   	list-style: none;
@@ -72,8 +72,9 @@ body {
 .local,
 .time,
 .hydric {
-	background-color: #009966;
+	//background-color: #009966;
 	color: black;
+    //opacity: .7;
 	margin: 10px;
 	padding: 10px;
 	display: block;
@@ -86,7 +87,7 @@ body {
 
 .step1 .form-control {
 	width: auto;
-	margin: 0 auto;
+	text-align: left;
 }
 
 .cidade {
@@ -98,7 +99,9 @@ body {
 
 .step1 label {
 	display: block;
-	text-align: center;
+    padding-top: 10px;
+	text-align: left;
+    font-size: 12px;
 }
 
 #diainicial,

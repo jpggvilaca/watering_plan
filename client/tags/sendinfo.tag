@@ -8,8 +8,8 @@
       <div class="local">
 
         <h4>Localização</h4>
-        <label>Escolha entre inserir a cidade ou coordenadas
-        Nota: ao escolher cidade em vez de coordenadas os dados meteorológicos podem não ser tão precisos</label>
+        <p>Escolha entre inserir a cidade ou coordenadas.<br/>
+        Nota: ao escolher cidade em vez de coordenadas os dados meteorológicos podem não ser tão precisos</p>
         <label>Método:</label>
         <select class="form-control"  id="metodoLocal" onchange={ localMethod }>
             <option value="" disabled selected>Escolha o método</option>
@@ -19,7 +19,9 @@
 
         <div class="coordenadas" onchange={ onInputCoords } if={ choseCoords }>
           <label>Coordenadas</label>
+          <label>Latitude</label>
           <input class="form-control" type="number" value="" placeholder="0" id="latitude"></input>
+          <label>Longitude</label>
           <input class="form-control" type="number" value="" placeholder="0" id="longitude"></input>
         </div>
 
@@ -74,13 +76,14 @@
         <p if={ choseCity }>Cidade : { this.city }</p>
         <p if={ choseCoords }>Latitude: { this.lat } </p>
         <p if={ choseCoords }>Longitude: { this.lon } </p>
-        <p>Período: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
+        <label>Período:</label> 
+        <p> De { startDay } de { startMonth } até { endDay } de { endMonth }</p>
         <h4>Necessidade hídricas</h4>
       </div>
 
       <button class="btn btn-default" type="button" onclick={ insNewData }>Introduzir novos dados</button>
       <button class="btn btn-primary" type="button" onclick={ writeToFile } >Enviar dados</i></button>
-      <button class="btn btn-default" type="button" if="{ dataSent }" onclick={ showChart } >Gerar gráfico</button>
+      <button class="btn btn-success" type="button" if="{ dataSent }" onclick={ showChart } >Gerar gráfico</button>
   </div>
 
 	<script>
