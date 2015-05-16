@@ -25,6 +25,8 @@ if (!is_string($data)) {
     echo $data;
 }
 
+echo 'cenas index';
+
 die();
 
 ?>

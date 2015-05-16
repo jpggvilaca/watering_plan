@@ -16,4 +16,5 @@ $myfile = fopen("cenas.txt", "w") or die("Erro ao criar ficheiro!");
 fwrite($myfile, $formattedData);
 $myfile = 'cenas.txt';
 
+
 ?>

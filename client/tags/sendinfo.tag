@@ -4,25 +4,23 @@
 
   	<h3>Por favor insira os seus dados </h3>
 
-    <form method="post" action=''>
+    <form method="post" action='' onsubmit={ onSubmit }>
       <div class="local">
 
         <h4>Localização</h4>
-        <p>Escolha entre inserir a cidade ou coordenadas.<br/>
-        Nota: ao escolher cidade em vez de coordenadas os dados meteorológicos podem não ser tão precisos</p>
+        <label>Escolha entre inserir a cidade ou coordenadas
+        Nota: ao escolher cidade em vez de coordenadas os dados meteorológicos podem não ser tão precisos</label>
         <label>Método:</label>
-        <select class="form-control"  id="metodoLocal" onchange={ localMethod }>
-            <option value="" disabled selected>Escolha o método</option>
+        <select class="form-control" onchange={ localMethod }>
+            <option value="">Escolha o método</option>
             <option value="Cidade">Cidade</option>
             <option value="Coordenadas">Coordenadas</option>
         </select>
 
         <div class="coordenadas" onchange={ onInputCoords } if={ choseCoords }>
           <label>Coordenadas</label>
-          <label>Latitude</label>
-          <input class="form-control" type="number" value="" placeholder="0" id="latitude"></input>
-          <label>Longitude</label>
-          <input class="form-control" type="number" value="" placeholder="0" id="longitude"></input>
+          <input class="form-control" type="number" value="" placeholder="0" name="latitude"></input>
+          <input class="form-control" type="number" value="" placeholder="0" name="longitude"></input>
         </div>
 
         <div class="cidade" if={ choseCity }>
@@ -76,14 +74,13 @@
         <p if={ choseCity }>Cidade : { this.city }</p>
         <p if={ choseCoords }>Latitude: { this.lat } </p>
         <p if={ choseCoords }>Longitude: { this.lon } </p>
-        <label>Período:</label> 
-        <p> De { startDay } de { startMonth } até { endDay } de { endMonth }</p>
+        <p>Período: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
         <h4>Necessidade hídricas</h4>
       </div>
 
-      <button class="btn btn-default" type="button" onclick={ insNewData }>Introduzir novos dados</button>
-      <button class="btn btn-primary" type="button" onclick={ writeToFile } >Enviar dados</i></button>
-      <button class="btn btn-success" type="button" if="{ dataSent }" onclick={ showChart } >Gerar gráfico</button>
+      <button class="btn btn-default" type="button" onclick="{ insNewData }">Introduzir novos dados</button>
+      <button class="btn btn-primary" type="button" onclick="{ writeToFile }" >Enviar dados</i></button>
+      <button class="btn btn-default" type="button" if="{ dataSent }" onclick="{ showChart }" >Gerar gráfico</button>
   </div>
 
 	<script>
@@ -111,7 +108,7 @@
     // The chart is initially hidden
 
     this.on('mount', function() {
-        $('#myChart').addClass('hidechart');
+      $('#myChart').addClass('hidechart');
     });
 
 
@@ -120,12 +117,8 @@
 
     // Coordinates
     onInputCoords(e) {
-        var ID = $(e.target).attr('id');
-        if(ID == 'latitude')
-        this.userLat = $(e.target).val();
-        if(ID == 'longitude')
-        this.userLon = $(e.target).val();
-    }
+        this.userLat = this.latitude.value;
+        this.userLon = this.longitude.value;    }
 
     // Chosen method - Coords or city
     localMethod(e) {
@@ -162,7 +155,7 @@
         this.endDay = $(e.target).val();
 		};
 
-    // Submitted city
+    // Submitted city - this function formats the string
     onInputPlace(e) {
       var string = $(e.target).val();
       this.city = string.charAt(0).toUpperCase() + string.slice(1);
@@ -180,13 +173,15 @@
 
     // After form is submitted
 
-    // Change between steps
+    // Going from step1 to step2
     formSubmitted(e) {
+      e.preventDefault();
+
       this.step1 = false;
       this.step2 = true;
 
 
-      this.weatherCall();
+      this.weatherCall(e);
       self.update();
     }
 
@@ -196,7 +191,8 @@
 	
 		// Weather API call
 
-    weatherCall() {
+    weatherCall(e) {
+      e.preventDefault();
 
       self = this;
       urlResult = '';
@@ -208,75 +204,92 @@
 
       else {
         urlResult = 'http://api.openweathermap.org/data/2.5/weather?'+'lat='+this.lat+'&'+'lon='+this.lon;
-        console.log("lon");
       }
 
       $.ajax({
         url: urlResult,
         dataType: 'json',
-        success: function(data) {
+        done: function(data) {
           dataValue = data.sys.country;
           this.teste = dataValue;
-          console.log("Data retrieved successfuly!");
+          console.log("Weather Data retrieved successfuly!");
           console.log(this.teste);
-        }
+        },
+        error: function(jqXHR, textStatus, errorThrown) { 
+            console.log("call to weather-data failed");
+          }
       });
 
       console.log(dataValue);
 
-      this.update();
+      
+
+      return false;
+
     }
 
     // Format input data into json and write it to txt file
+      writeToFile(e) {
+        e.preventDefault();
 
-    writeToFile() {
+        self = this;
 
-      self = this;
+        $.ajax({
+          url: 'http://localhost:4000/process-data.php',
+          type: 'post',
+          data: { 'input-data': JSON.stringify(this.fields) },
+          cache: false,
+          success: function(data){
+            console.log('call to process-data successful');
+          },
+          error: function(jqXHR, textStatus, errorThrown) { 
+            console.log("call to process-data failed");
+          }
+        });
 
-      $.ajax({
-        url: 'http://localhost:4000/process-data.php',
-        type: 'post',
-        data: { 'input-data': JSON.stringify(this.fields) },
-        cache: false,
-        success: function(data){
-          console.log('call to process-data successful');
-        },
-        error: function(jqXHR, textStatus, errorThrown) { 
-          console.log("call to process-data failed");
-        }
-      });
+        this.dataSent = true;
+        
 
-      this.dataSent = true;
-      self.update();
-    }
+        return false;
+      }
 
     // Receive the output json from octave
 
-    receiveFromOctave() {
+      receiveFromOctave(e) {
 
-      self = this;
+        e.preventDefault();
 
-      $.ajax({
-        url: 'http://localhost:4000/index.php',
-        type: 'get',
-        data: { 'input-data': JSON.stringify(self.fields) },
-        success: function(data){
-          console.log('call to process-data successful');
-        },
-        error: function(jqXHR, textStatus, errorThrown) { 
-          console.log("call to process-data failed");
-        }
-      });
+        self = this;
 
-    }
+        $.ajax({
+          url: 'http://localhost:4000/index.php',
+          type: 'get',
+          data: { 'input-data': JSON.stringify(self.fields) },
+          success: function(data){
+            console.log('call to index-data successful');
+          },
+          error: function(jqXHR, textStatus, errorThrown) { 
+            console.log("call to index-data failed");
+          }
+        });
+
+        return false;
+
+      }
 	
 		// Display the result to the user
 
-    showChart() {
+    showChart(e) {
+      e.preventDefault();
+
         if(this.dataSent) {
           $('#myChart').removeClass('hidechart');
         }
     };
+
+    onSubmit(e) {
+      e.preventDefault();
+    }
 
 // Poder alterar o periodo de tempo dinamicamente no grafico em vez de o user ter que introduzir tudo novamente
 // dados introduzidos aparecer ao lado do grafico
