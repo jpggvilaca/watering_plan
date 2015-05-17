@@ -75,4 +75,4 @@ gulp.task('webserver', function() {
 
 // Main task (which runs everything)
 
-gulp.task('default', ['scripts', 'styles', 'minify-html' ,'webserver', 'riot-gulp']); 
+gulp.task('default', ['scripts', 'styles', 'watch', 'minify-html' ,'webserver', 'riot-gulp']); 

@@ -32,7 +32,7 @@
       <div class="hydric">
         <h4>Planta</h4>
 
-        <select class="form-control" id="typeofplant" onchange={ plantSubmit }>
+        <select class="form-control" name="typeofplant" onchange={ plantSubmit }>
             <option value="">Escolha a planta</option>
             <option each="{ plant, i in  fields.Cultures }" value="{ plant }">{ plant }</option>
           </select>
@@ -90,6 +90,7 @@
 		self = this;
     this.teste = '';
     this.step1 = true;
+    this.coeficient = 0;
     this.choseCity = this.choseCoords = this.step2 = this.dataSent = false;
 		this.startMonth = this.startDay = this.endDay = this.endMonth = this.city = '';
     this.lon = this.lat = this.userLat = this.userLon = 0;
@@ -134,6 +135,29 @@
       }
     }
 
+    // Chosen plant
+
+    // Auxiliary Method (gets the index of plant to retrieve the coeficient)
+
+    function getIndex(chosenPlant) {
+      plants = self.fields.Cultures;
+      coeficients = self.fields.Coeficients;
+
+      for (i = 0; i < plants.length; i++) {
+          if (chosenPlant == plants[i]) {
+            return i;
+          }
+      }
+
+      return -1;
+    }
+
+    plantSubmit() {
+      plantChosen = this.typeofplant.value;
+      index = getIndex(plantChosen);
+
+      this.coeficient = this.fields.Coeficients[index];
+    }
 
     // Submitted month
 		monthSubmit(e) {
