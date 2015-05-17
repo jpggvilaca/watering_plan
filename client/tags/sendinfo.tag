@@ -35,7 +35,14 @@
         <select class="form-control" name="typeofplant" onchange={ plantSubmit }>
             <option value="">Escolha a planta</option>
             <option each="{ plant, i in  fields.Cultures }" value="{ plant }">{ plant }</option>
-          </select>
+        </select>
+
+        <h4>Tipo de Rega</h4>
+
+        <select class="form-control" name="typeofwatering" onchange={ wateringSubmit }>
+            <option value="">Escolha o método</option>
+            <option each="{ water, i in  fields.TypeofWatering }" value="{ water }">{ water }</option>
+        </select>
 
       </div>
 
@@ -91,6 +98,7 @@
     this.teste = '';
     this.step1 = true;
     this.coeficient = 0;
+    this.wateringType = '';
     this.choseCity = this.choseCoords = this.step2 = this.dataSent = false;
 		this.startMonth = this.startDay = this.endDay = this.endMonth = this.city = '';
     this.lon = this.lat = this.userLat = this.userLon = 0;
@@ -152,11 +160,19 @@
       return -1;
     }
 
+    // Handle type of plant submission
     plantSubmit() {
       plantChosen = this.typeofplant.value;
       index = getIndex(plantChosen);
 
       this.coeficient = this.fields.Coeficients[index];
+    }
+
+    // Handle type of watering submission
+    wateringSubmit() {
+      waterChosen = this.typeofwatering.value;
+
+      this.wateringType = waterChosen;
     }
 
     // Submitted month
