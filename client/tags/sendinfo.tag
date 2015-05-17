@@ -327,12 +327,11 @@
         }
     };
 
+    // Just to prevent form submit issues
+
     onSubmit(e) {
       e.preventDefault();
     }
-
-// Poder alterar o periodo de tempo dinamicamente no grafico em vez de o user ter que introduzir tudo novamente
-// dados introduzidos aparecer ao lado do grafico
 
 	</script>
 

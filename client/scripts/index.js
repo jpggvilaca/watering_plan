@@ -24,6 +24,16 @@ $(function () {
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(151,187,205,1)",
             data: [4,2,1,1,0,30,6,6,2,6]
+        },
+        {
+            label: "Controlo",
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: [9,0,0,3,8,10,0,4,2,6]
         }
     ]
     };
@@ -34,7 +44,3 @@ $(function () {
     var myLineChart = new Chart(ctx).Line(data);
 
 });
-
-
-// Server gen: http://wp.watering.dev.10.0.0.170.xip.io
-// Server home: http://localhost:4000
