@@ -25,7 +25,7 @@ $myfile = fopen($filename, "w") or die("Error creating file!");
 
 foreach($data as $key => $value) {
 	foreach($value as $arrayvalue) {
-		fwrite($myfile, $arrayvalue);
+		fwrite($myfile, $arrayvalue."\n");
 	}
 }
 
