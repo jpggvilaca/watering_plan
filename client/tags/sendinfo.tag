@@ -1,13 +1,14 @@
 <sendinfo>
 
   <div class="step1" if={ step1 }>
-
-  	<h3>Por favor insira os seus dados </h3>
-
+    <h1>Planeamento de Rega</h1>
+    <h2>A planta e as suas necessidades hídricas</h2>
     <form method="post" action='' onsubmit={ onSubmit }>
       <div class="local">
 
-        <h4>Localização</h4>
+        <div class="form-description">
+          <h4>Localização</h4>
+        </div>
         <label>Escolha entre inserir a cidade ou coordenadas
         Nota: ao escolher cidade em vez de coordenadas os dados meteorológicos podem não ser tão precisos</label>
         <label>Método:</label>
@@ -30,14 +31,18 @@
       </div>
 
       <div class="hydric">
-        <h4>Planta</h4>
+        <div class="form-description">
+          <h4>Planta</h4>
+        </div>
 
         <select class="form-control" name="typeofplant" onchange={ plantSubmit }>
             <option value="">Escolha a planta</option>
             <option each="{ plant, i in  fields.Cultures }" value="{ plant }">{ plant }</option>
         </select>
 
-        <h4>Tipo de Rega</h4>
+        <div class="form-description">
+          <h4>Tipo de Rega</h4>
+        </div>
 
         <select class="form-control" name="typeofwatering" onchange={ wateringSubmit }>
             <option value="">Escolha o método</option>
@@ -48,7 +53,9 @@
 
       <div class="time">
 
-        <h4>Período</h4>
+        <div class="form-description">
+          <h4>Período</h4>
+        </div>
 
         <label>Mês inicial:</label>
           <select class="form-control" id="startMonth" onchange={ monthSubmit }>
@@ -70,24 +77,24 @@
 
       </div>
 
-      <input type="submit" class="btn btn-primary center-block" name="submit" onclick={ formSubmitted }/>
+      <input type="submit" class="btn btn-primary" name="submit" onclick={ formSubmitted }/>
     </form>
   
   </div>
 
   <div class="results" if={ step2 } >
-      <h2>Os seus dados:</h2>
+      <h4 class="description">Os seus dados:</h4>
       <div class="col-1">
         <p if={ choseCity }>Cidade : { this.city }</p>
         <p if={ choseCoords }>Latitude: { this.lat } </p>
         <p if={ choseCoords }>Longitude: { this.lon } </p>
         <p>Período: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
-        <h4>Necessidade hídricas</h4>
+        <h4 class="description">Necessidade hídricas</h4>
       </div>
 
       <button class="btn btn-default" type="button" onclick="{ insNewData }">Introduzir novos dados</button>
       <button class="btn btn-primary" type="button" onclick="{ writeToFile }" >Enviar dados</i></button>
-      <button class="btn btn-default" type="button" if="{ dataSent }" onclick="{ showChart }" >Gerar gráfico</button>
+      <button class="btn btn-success" type="button" if="{ dataSent }" onclick="{ showChart }" >Gerar gráfico</button>
   </div>
 
 	<script>

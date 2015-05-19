@@ -5,24 +5,43 @@
 body {
   background-color: #eee !important;
   color: #5f5f5f  !important;
+  font-family: 'Questrial', serif !important;
 
   ul {
   	list-style: none;
   }
 
+  h1,
   h2 {
   	padding: 20px 0;
+  	margin: 0;
+  }
+
+  h4 {
+  	margin: 0;
+  	color: #000033;
   }
 
   p {
   	font-size: 14px;
   }
+
+  button,
+  .btn {
+		display: block;
+		margin: 10px 0px !important;
+		padding: 6px 50px;
+
+		&.btn-default {
+			padding: 6px 19px;
+		}
+	}
 }
 
 .main-wrapper {
 	width: auto;
 	margin: 0 auto;
-	text-align: center;
+	text-align: left;
 	padding: 30px 50px;
     padding-bottom: 0;
     max-width: 940px;
@@ -31,6 +50,13 @@ body {
 		display: inline-block;
 		transition: color 1.5s ease-in-out;
 	}
+}
+
+.form-description {
+	max-width: 940px;
+	background-color: #666600;
+	padding: 8px 4px;
+	margin-top: 10px;
 }
 
 .step1 {
@@ -49,12 +75,10 @@ body {
     padding-left: 20px;
     min-width: 300px;
     height: 340px;
-    border: 3px solid #333;
 
-	button {
-		display: block;
-		margin-bottom: 10px;
-	}
+    .description {
+    	margin: 10px 0;
+    }
 }
 
 #myChart {
@@ -74,9 +98,8 @@ body {
 .hydric {
 	//background-color: #009966;
 	color: black;
-    //opacity: .7;
-	margin: 10px;
-	padding: 10px;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
 	display: block;
 	text-align: left;
 
@@ -88,6 +111,7 @@ body {
 .step1 .form-control {
 	width: auto;
 	text-align: left;
+	min-width: 165px;
 }
 
 .cidade {
@@ -105,7 +129,9 @@ body {
 }
 
 #diainicial,
-#diafinal {
+#diafinal,
+#startmonth,
+#endmonth {
 	width: 100%;
-	max-width: 143px;
+	max-width: 165px;
 }
