@@ -11,10 +11,18 @@ body {
   	list-style: none;
   }
 
-  h1,
-  h2 {
+  h1 {
+    text-align: center;
   	padding: 20px 0;
   	margin: 0;
+  }
+
+  h2 {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding-bottom: 20px;
   }
 
   h4 {
@@ -30,10 +38,13 @@ body {
   .btn {
 		display: block;
 		margin: 10px 0px !important;
-		padding: 6px 50px;
+        margin-top: 20px !important;
+		padding: 6px 59px;
+        background-color: #2b9280 !important;
 
 		&.btn-default {
-			padding: 6px 19px;
+			padding: 6px 30px;
+            margin-top: 40px !important;
 		}
 	}
 }
@@ -42,7 +53,7 @@ body {
 	width: auto;
 	margin: 0 auto;
 	text-align: left;
-	padding: 30px 50px;
+	padding: 30px 100px;
     padding-bottom: 0;
     max-width: 940px;
 
@@ -52,11 +63,22 @@ body {
 	}
 }
 
+.header {
+    background-color: #2b9280;
+    width: 100%;
+    color: #fff;
+}
+
 .form-description {
 	max-width: 940px;
-	background-color: #666600;
-	padding: 8px 4px;
-	margin-top: 10px;
+	border-bottom: 1px solid #2b9280;
+	margin-top: 15px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+
+    + label {
+        max-width: 70%;
+    }
 }
 
 .step1 {
@@ -95,8 +117,8 @@ body {
 
 .local,
 .time,
-.hydric {
-	//background-color: #009966;
+.hydric,
+.water {
 	color: black;
 	margin-bottom: 10px;
 	padding-bottom: 10px;

@@ -23,7 +23,7 @@ $(function () {
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(151,187,205,1)",
-            //data: [4,2,1,1,0,30,6,6,2,6]
+            data: [4,2,1,1,0,30,6,6,2,6]
         },
         {
             label: "Controlo",
@@ -33,7 +33,7 @@ $(function () {
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(151,187,205,1)",
-            //data: [9,0,0,3,8,10,0,4,2,6]
+            data: [9,0,0,3,8,10,0,4,2,6]
         }
     ]
     };

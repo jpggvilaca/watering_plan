@@ -1,8 +1,6 @@
 <sendinfo>
 
   <div class="step1" if={ step1 }>
-    <h1>Planeamento de Rega</h1>
-    <h2>A planta e as suas necessidades hídricas</h2>
     <form method="post" action='' onsubmit={ onSubmit }>
       <div class="local">
 
@@ -10,7 +8,7 @@
           <h4>Localização</h4>
         </div>
         <label>Escolha entre inserir a cidade ou coordenadas
-        Nota: ao escolher cidade em vez de coordenadas os dados meteorológicos podem não ser tão precisos</label>
+        Nota: ao escolher cidade em vez de coordenadas os dados meteorológicos podem não ser tão precisos.</label>
         <label>Método:</label>
         <select class="form-control" onchange={ localMethod }>
             <option value="">Escolha o método</option>
@@ -40,6 +38,9 @@
             <option each="{ plant, i in  fields.Cultures }" value="{ plant }">{ plant }</option>
         </select>
 
+      </div>
+
+      <div class="water">
         <div class="form-description">
           <h4>Tipo de Rega</h4>
         </div>
@@ -48,7 +49,6 @@
             <option value="">Escolha o método</option>
             <option each="{ water, i in  fields.TypeofWatering }" value="{ water }">{ water }</option>
         </select>
-
       </div>
 
       <div class="time">
@@ -89,7 +89,8 @@
         <p if={ choseCoords }>Latitude: { this.lat } </p>
         <p if={ choseCoords }>Longitude: { this.lon } </p>
         <p>Período: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
-        <h4 class="description">Necessidade hídricas</h4>
+        <p>Planta: { typeofplant.value }</p>
+        <p>Tipo de Rega: { typeofwatering.value }</p>
       </div>
 
       <button class="btn btn-default" type="button" onclick="{ insNewData }">Introduzir novos dados</button>
@@ -109,7 +110,7 @@
     this.choseCity = this.choseCoords = this.step2 = this.dataSent = false;
 		this.startMonth = this.startDay = this.endDay = this.endMonth = this.city = '';
     this.lon = this.lat = this.userLat = this.userLon = 0;
-    this.userData = []
+    this.userData = [];
 
     // Object for testing
     this.fields = {
@@ -282,7 +283,7 @@
         self = this;
 
         $.ajax({
-          url: 'http://localhost:4000/process-data.php',
+          url: 'http://wp.watering.dev/process-data.php',
           type: 'post',
           data: { 'input-data': JSON.stringify(this.fields) },
           cache: false,

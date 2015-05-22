@@ -57,7 +57,6 @@ gulp.task('riot-gulp', function() {
 gulp.task('watch', function(){
 	gulp.watch('client/scripts/*.js', ['scripts']);
 	gulp.watch('client/sass/*.scss', ['styles']);
-	gulp.watch('index.html', ['minify-html']);
 	gulp.watch('client/tags/*.tag', ['riot-gulp']);
 });
 
@@ -68,11 +67,12 @@ gulp.task('webserver', function() {
     .pipe(webserver({
       livereload: false,
       directoryListing: false,
-      open: true,
+      open: false,
       port: 3000
     }));
 });
 
 // Main task (which runs everything)
 
-gulp.task('default', ['scripts', 'styles', 'watch', 'minify-html' ,'webserver', 'riot-gulp']); 
+gulp.task('default', ['scripts', 'styles', 'riot-gulp', 'webserver', 'watch']);
+gulp.task('dist', ['scripts', 'styles', 'riot-gulp', 'minify-html']);
