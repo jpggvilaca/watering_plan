@@ -25,4 +25,6 @@ if (!is_string($data)) {
 
 die();
 
+// DELETE THIS FILE, OCTAVE WILL TAKE CARE OF THIS PART OF THE PROCESS
+
 ?>
