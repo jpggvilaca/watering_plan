@@ -31,7 +31,7 @@ foreach($data as $key => $value) {
 
 // This part executes octave
 
-$command = '/usr/local/octave/3.8.0/bin/octave-3.8.0 $1 -qf -p /Users/isan0/Documents/OCP/ /Users/isan0/Documents/OCP/Exemplo.m | tail -n +2 > output$1.txt'; // 'ls' e.g.
+$command = '/usr/local/octave/3.8.0/bin/octave-3.8.0 User_'.$user_counter.' -qf -p /Users/isan0/Documents/OCP/ /Users/isan0/Documents/OCP/Exemplo.m | tail -n +2 > outputUser_'.$user_counter.'.txt '; // 'ls' e.g.
 
 $output = shell_exec($command);
 //echo "<pre>$output</pre>";
