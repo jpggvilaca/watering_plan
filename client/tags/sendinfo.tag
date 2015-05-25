@@ -1,6 +1,6 @@
 <sendinfo>
 
-  <div class="step1" if={ step1 }>
+  <div class="step1"}>
     <form method="post" action='' onsubmit={ onSubmit }>
       <div class="local">
 
@@ -104,7 +104,6 @@
 
 		self = this;
     this.teste = '';
-    this.step1 = true;
     this.coeficient = 0;
     this.wateringType = '';
     this.choseCity = this.choseCoords = this.step2 = this.dataSent = false;
@@ -212,7 +211,6 @@
     // When the user wants to introduce new data
     insNewData() {
       this.step2 = false;
-      this.step1 = true;
       this.dataSent = false;
       $('#myChart').addClass('hidechart');
 
@@ -225,7 +223,6 @@
     formSubmitted(e) {
       e.preventDefault();
 
-      this.step1 = false;
       this.step2 = true;
 
 

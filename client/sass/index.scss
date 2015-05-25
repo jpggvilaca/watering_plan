@@ -27,7 +27,7 @@ body {
 
   h4 {
   	margin: 0;
-  	color: #000033;
+  	color: #000303;
   }
 
   p {
@@ -38,24 +38,26 @@ body {
   .btn {
 		display: block;
 		margin: 10px 0px !important;
-        margin-top: 20px !important;
-		padding: 6px 59px;
-        background-color: #2b9280 !important;
+    margin-top: 20px !important;
+		padding: 6px 50px;
+    background-color: #2b9280 !important;
 
 		&.btn-default {
 			padding: 6px 30px;
-            margin-top: 40px !important;
+      margin-top: 40px !important;
 		}
 	}
 }
 
 .main-wrapper {
 	width: auto;
-	margin: 0 auto;
+  height: 100%;
+  display: inline-block;
+	margin-left: 40px;
 	text-align: left;
-	padding: 30px 100px;
-    padding-bottom: 0;
-    max-width: 940px;
+	padding: 15px 20px 0 80px;
+  max-width: 470px;
+  margin-bottom: 35px;
 
 	.col-1 {
 		display: inline-block;
@@ -65,6 +67,7 @@ body {
 
 .header {
     background-color: #2b9280;
+    display: block;
     width: 100%;
     color: #fff;
 }
@@ -73,12 +76,12 @@ body {
 	max-width: 940px;
 	border-bottom: 1px solid #2b9280;
 	margin-top: 15px;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 
-    + label {
-        max-width: 70%;
-    }
+  + label {
+      max-width: 70%;
+  }
 }
 
 .step1 {
@@ -89,14 +92,12 @@ body {
 }
 
 .results {
-	background-color: #eee;
 	color: black;
-    text-align: left;
-    float: left;
-    display: inline-block;
-    padding-left: 20px;
-    min-width: 300px;
-    height: 340px;
+  text-align: left;
+  display: inline-block;
+  padding-left: 20px;
+  min-width: 300px;
+  height: 100%;
 
     .description {
     	margin: 10px 0;
@@ -111,7 +112,7 @@ body {
     transition: opacity 2s ease-in-out;
 
     &.hidechart {
-        opacity: 0;
+        display: none;
     }
 }
 
@@ -145,9 +146,9 @@ body {
 
 .step1 label {
 	display: block;
-    padding-top: 10px;
+  padding-top: 10px;
 	text-align: left;
-    font-size: 12px;
+  font-size: 12px;
 }
 
 #diainicial,
@@ -156,4 +157,19 @@ body {
 #endmonth {
 	width: 100%;
 	max-width: 165px;
+}
+
+
+.footer {
+  background-color: #2b9280;
+  display: block;
+  width: 100%;
+  height: 63px;
+  line-height: 63px;
+  color: #fff;
+  text-align: center;
+
+  p {
+    display: inline;
+  }
 }
