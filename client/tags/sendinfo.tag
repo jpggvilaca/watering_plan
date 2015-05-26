@@ -77,7 +77,7 @@
 
       </div>
 
-      <input type="submit" class="btn btn-primary" name="submit" onclick={ formSubmitted }/>
+      <button class="btn btn-primary" type="button" onclick="{ writeToFile }" >Enviar dados</i></button>
     </form>
   
   </div>
