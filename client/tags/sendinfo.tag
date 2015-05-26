@@ -82,20 +82,23 @@
   
   </div>
 
-  <div class="results" if={ step2 } >
-      <h4 class="description">Os seus dados:</h4>
-      <div class="col-1">
-        <p if={ choseCity }>Cidade : { this.city }</p>
-        <p if={ choseCoords }>Latitude: { this.lat } </p>
-        <p if={ choseCoords }>Longitude: { this.lon } </p>
-        <p>Período: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
-        <p>Planta: { typeofplant.value }</p>
-        <p>Tipo de Rega: { typeofwatering.value }</p>
-      </div>
+  <div class="step2">
+    <div class="results" if={ step2 } >
+        <h4 class="description">Os seus dados:</h4>
+        <div class="col-1">
+          <p if={ choseCity }>Cidade : { this.city }</p>
+          <p if={ choseCoords }>Latitude: { this.lat } </p>
+          <p if={ choseCoords }>Longitude: { this.lon } </p>
+          <p>Período: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
+          <p>Planta: { typeofplant.value }</p>
+          <p>Tipo de Rega: { typeofwatering.value }</p>
+        </div>
 
-      <button class="btn btn-default" type="button" onclick="{ insNewData }">Introduzir novos dados</button>
-      <button class="btn btn-primary" type="button" onclick="{ writeToFile }" >Enviar dados</i></button>
-      <button class="btn btn-success" type="button" if="{ dataSent }" onclick="{ showChart }" >Gerar gráfico</button>
+        <button class="btn btn-default" type="button" onclick="{ insNewData }">Introduzir novos dados</button>
+        <button class="btn btn-primary" type="button" onclick="{ writeToFile }" >Enviar dados</i></button>
+        <button class="btn btn-success" type="button" if="{ dataSent }" onclick="{ showChart }" >Gerar gráfico</button>
+        <canvas id="myChart"></canvas>
+    </div>
   </div>
 
 	<script>
@@ -299,6 +302,8 @@
       }
 
     // Receive the output json from octave
+
+    // DELETE THIS FUNCTION, ITS OBSOLETE NOW
 
       receiveFromOctave(e) {
 

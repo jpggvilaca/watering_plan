@@ -6,6 +6,9 @@ body {
   background-color: #eee !important;
   color: #5f5f5f  !important;
   font-family: 'Questrial', serif !important;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 
   ul {
   	list-style: none;
@@ -36,11 +39,11 @@ body {
 
   button,
   .btn {
-		display: block;
-		margin: 10px 0px !important;
-    margin-top: 20px !important;
-		padding: 6px 50px;
+    display: block;
+    margin: 10px 0px !important;
+    padding: 6px 50px;
     background-color: #2b9280 !important;
+    margin-top: 20px !important;
 
 		&.btn-default {
 			padding: 6px 30px;
@@ -50,19 +53,23 @@ body {
 }
 
 .main-wrapper {
-	width: auto;
-  height: 100%;
+  margin-left: 40px;
+  padding: 15px 20px 0 80px;
+  text-align: left;
+  width: auto;
   display: inline-block;
-	margin-left: 40px;
-	text-align: left;
-	padding: 15px 20px 0 80px;
-  max-width: 470px;
+  flex: 1 1 auto;
   margin-bottom: 35px;
+  width: 960px;
 
 	.col-1 {
 		display: inline-block;
 		transition: color 1.5s ease-in-out;
 	}
+}
+
+sendinfo {
+  display:flex;
 }
 
 .header {
@@ -85,6 +92,9 @@ body {
 }
 
 .step1 {
+
+  max-width: 470px;
+
 	select,
 	input {
 		display: block;
@@ -96,7 +106,7 @@ body {
   text-align: left;
   display: inline-block;
   padding-left: 20px;
-  min-width: 300px;
+  max-width: 400px;
   height: 100%;
 
     .description {
@@ -109,10 +119,10 @@ body {
 	margin-left: 20px;
 	width: 400px;
 	height: 340px;
-    transition: opacity 2s ease-in-out;
+  transition: opacity 2s ease-in-out;
 
     &.hidechart {
-        display: none;
+        opacity: 0;
     }
 }
 
@@ -149,6 +159,14 @@ body {
   padding-top: 10px;
 	text-align: left;
   font-size: 12px;
+}
+
+.step2 {
+  display: inline-block;
+  position: relative;
+  min-width: 470px;
+  height: auto;
+
 }
 
 #diainicial,
