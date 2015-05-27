@@ -351,6 +351,7 @@
 
     showChart(e) {
       e.preventDefault();
+      parent.Chart.addData([100, 100], "cenas");
 
         if(this.dataSent) {
           $('#myChart').removeClass('hidechart');

@@ -1,8 +1,8 @@
 $(function () {
 
- // Data to be inserted onto the chart object
-   
-   var data = {
+  // Data to be inserted onto the chart object
+
+   data = {
     labels: [1,2,3,4,5,6,7,8,9,10],
     datasets: [
         {
@@ -13,7 +13,7 @@ $(function () {
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(220,220,220,1)",
-            //data: [1,2,3,4,5,40,7,7,22,11]
+            data: [1,2,3,4,5,40,7,7,22,11]
         },
         {
             label: "Necessidades da planta",
@@ -40,7 +40,9 @@ $(function () {
 
 
     // Creates the chart object
-    var ctx = document.getElementById("myChart").getContext("2d");
-    var myLineChart = new Chart(ctx).Line(data);
+    this.ctx = document.getElementById("myChart").getContext("2d");
+    this.myLineChart = new Chart(ctx).Line(data);
+  });
 
 });
+
