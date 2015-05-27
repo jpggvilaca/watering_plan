@@ -1,6 +1,6 @@
 <sendinfo>
 
-  <div class="step1"}>
+  <div class="step1" if={ step1 }>
     <form method="post" action='' onsubmit={ onSubmit }>
       <div class="local">
 
@@ -77,13 +77,13 @@
 
       </div>
 
-      <button class="btn btn-primary" type="button" onclick="{ writeToFile }" >Enviar dados</i></button>
+      <button class="btn btn-primary" type="button" onclick="{ formSubmitted }" >Enviar dados</i></button>
     </form>
   
   </div>
 
-  <div class="step2">
-    <div class="results" if={ step2 } >
+  <div class="step2" if={ step2 }>
+    <div class="results">
         <h4 class="description">Os seus dados:</h4>
         <div class="col-1">
           <p if={ choseCity }>Cidade : { this.city }</p>
@@ -97,7 +97,7 @@
         <button class="btn btn-default" type="button" onclick="{ insNewData }">Introduzir novos dados</button>
         <button class="btn btn-primary" type="button" onclick="{ writeToFile }" >Enviar dados</i></button>
         <button class="btn btn-success" type="button" if="{ dataSent }" onclick="{ showChart }" >Gerar gráfico</button>
-        <canvas id="myChart"></canvas>
+        
     </div>
   </div>
 
@@ -106,7 +106,9 @@
     // Variable declaration
 
 		self = this;
+    this.step1 = true;
     this.teste = '';
+    this.wateringCoeficient = 0;
     this.coeficient = 0;
     this.wateringType = '';
     this.choseCity = this.choseCoords = this.step2 = this.dataSent = false;
@@ -119,7 +121,8 @@
           "Months": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
           "Cultures": ["Algodão","Amendoim","Arroz","Banana","Batata","Beterraba","Cana-de-açucar","Cártamo","Cebola","Citrinos","Couve","Ervilha","Feijão","Feijão-verde","Girassol","Luzema","Melancia","Milho","Oliveira","Pimento","Soja","Sorgo","Tabaco","Tomate","Trigo","Vinha"],
           "Coeficients": [0.776,0.712,1.3,0.86,0.766,0.786,0.746,0.612,0.81,0.76,0.78,0.88,0.622,0.774,0.736,0.715,0.75,0.726,0.5,0.76,0.74,0.818,0.788,0.76,0.742,0.65],
-          "TypeofWatering": ["Faixas","Canteiros","Sulcos","Gota-a-gota","Miniaspersão","Aspersão"]
+          "TypeofWatering": ["Faixas","Canteiros","Sulcos","Gota-a-gota","Miniaspersão","Aspersão"],
+          "WateringCoeficient": [0.57, 0.59, 0.58, 0.9, 0.85, 0.8]
     };
 
 
@@ -160,9 +163,23 @@
     function getIndex(chosenPlant) {
       plants = self.fields.Cultures;
       coeficients = self.fields.Coeficients;
+      watering = self.fields.WateringCoeficient;
 
       for (i = 0; i < plants.length; i++) {
           if (chosenPlant == plants[i]) {
+            return i;
+          }
+      }
+
+      return -1;
+    }
+
+    function getIndex(chosenWater) {
+      typeofwatering = self.fields.TypeofWatering;
+      watering = self.fields.WateringCoeficient;
+
+      for (i = 0; i < typeofwatering.length; i++) {
+          if (chosenWater == typeofwatering[i]) {
             return i;
           }
       }
@@ -181,8 +198,10 @@
     // Handle type of watering submission
     wateringSubmit() {
       waterChosen = this.typeofwatering.value;
+      index = getIndex(waterChosen)
 
       this.wateringType = waterChosen;
+      this.wateringCoeficient = this.fields.WateringCoeficient[index];
     }
 
     // Submitted month
@@ -214,6 +233,7 @@
     // When the user wants to introduce new data
     insNewData() {
       this.step2 = false;
+      this.step1 = true;
       this.dataSent = false;
       $('#myChart').addClass('hidechart');
 
@@ -227,7 +247,7 @@
       e.preventDefault();
 
       this.step2 = true;
-
+      this.step1 = false;
 
       this.weatherCall(e);
       self.update();
@@ -283,7 +303,7 @@
         self = this;
 
         $.ajax({
-          url: 'http://wp.watering.dev/process-data.php',
+          url: 'http://localhost:4000/process-data.php',
           type: 'post',
           data: { 'input-data': JSON.stringify(this.fields) },
           cache: false,
