@@ -2,7 +2,7 @@ $(function () {
 
   // Data to be inserted onto the chart object
 
-   data = {
+   var data = {
     labels: [1,2,3,4,5,6,7,8,9,10],
     datasets: [
         {
@@ -40,9 +40,7 @@ $(function () {
 
 
     // Creates the chart object
-    this.ctx = document.getElementById("myChart").getContext("2d");
-    this.myLineChart = new Chart(ctx).Line(data);
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myLineChart = new Chart(ctx).Line(data);
   });
-
-});
 

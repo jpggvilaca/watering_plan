@@ -174,7 +174,7 @@
       return -1;
     }
 
-    function getIndex(chosenWater) {
+    function getIndexTwo(chosenWater) {
       typeofwatering = self.fields.TypeofWatering;
       watering = self.fields.WateringCoeficient;
 
@@ -198,7 +198,7 @@
     // Handle type of watering submission
     wateringSubmit() {
       waterChosen = this.typeofwatering.value;
-      index = getIndex(waterChosen)
+      index = getIndexTwo(waterChosen);
 
       this.wateringType = waterChosen;
       this.wateringCoeficient = this.fields.WateringCoeficient[index];
@@ -351,12 +351,11 @@
 
     showChart(e) {
       e.preventDefault();
-      parent.Chart.addData([100, 100], "cenas");
 
         if(this.dataSent) {
           $('#myChart').removeClass('hidechart');
         }
-    };
+    }
 
     // Just to prevent form submit issues
 
