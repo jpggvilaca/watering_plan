@@ -108,6 +108,7 @@
 		self = this;
     this.step1 = true;
     this.teste = '';
+    this.tmin = this.tmax = this.wind = 0;
     this.wateringCoeficient = 0;
     this.coeficient = 0;
     this.wateringType = '';
@@ -124,8 +125,6 @@
           "TypeofWatering": ["Faixas","Canteiros","Sulcos","Gota-a-gota","Miniaspersão","Aspersão"],
           "WateringCoeficient": [0.57, 0.59, 0.58, 0.9, 0.85, 0.8]
     };
-
-
 
     // The chart is initially hidden
 
@@ -264,7 +263,6 @@
 
       self = this;
       urlResult = '';
-      dataValue = '';
 
       if( this.choseCity ) {
         urlResult = 'http://api.openweathermap.org/data/2.5/weather?q='+ this.city + ',PT';
@@ -277,24 +275,36 @@
       $.ajax({
         url: urlResult,
         dataType: 'json',
-        done: function(data) {
-          dataValue = data.sys.country;
-          this.teste = dataValue;
+        success: function(data) {
+          self.wind = data.wind.speed;
+          self.tmin = data.main.temp_min;
+          self.tmax = data.main.temp_max;
+          console.log(self.wind);
           console.log("Weather Data retrieved successfuly!");
-          console.log(this.teste);
         },
         error: function(jqXHR, textStatus, errorThrown) { 
-            console.log("call to weather-data failed");
+            console.log("Something went wrong");
           }
       });
 
-      console.log(dataValue);
-
-      
+      console.log(self.wind);
 
       return false;
 
     }
+
+    this.octaveData = {
+      "Latitude": this.lat,
+      "Longitude": this.lon,
+      "Tmin": this.tmin,
+      "Tmax": this.tmax,
+      "Vento": this.wind,
+      "Xmin": 1,
+      "Evapo": this.coeficient,
+      "TipodeRegaConst": this.wateringCoeficient
+    };
+
+    console.log(this.octaveData);
 
     // Format input data into json and write it to txt file
       writeToFile(e) {
@@ -305,7 +315,7 @@
         $.ajax({
           url: 'http://localhost:4000/process-data.php',
           type: 'post',
-          data: { 'input-data': JSON.stringify(this.fields) },
+          data: { 'input-data': JSON.stringify(this.octaveData) },
           cache: false,
           success: function(data){
             console.log('call to process-data successful');

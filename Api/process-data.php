@@ -24,17 +24,15 @@ while( file_exists($filename) ) {
 $myfile = fopen($filename, "w") or die("Error creating file!");
 
 foreach($data as $key => $value) {
-	foreach($value as $arrayvalue) {
-		fwrite($myfile, $arrayvalue."\n");
-	}
+	fwrite($myfile, $value."\n");
 }
 
 // This part executes octave
 // Path_to_octave $1 opt opt path_to_func path_to_octave_file format output_file
 
-$command = '/usr/local/octave/3.8.0/bin/octave-3.8.0 User_'.$user_counter.' -qf -p /Users/isan0/Documents/OCP/ /Users/isan0/Documents/OCP/Exemplo.m | tail -n +2 > outputUser_'.$user_counter.'.txt ';
+//$command = '/usr/local/octave/3.8.0/bin/octave-3.8.0 User_'.$user_counter.' -qf -p /Users/isan0/Documents/OCP/ /Users/isan0/Documents/OCP/Exemplo.m | tail -n +2 > outputUser_'.$user_counter.'.txt ';
 
-$output = shell_exec($command);
+//$output = shell_exec($command);
 //echo "<pre>$output</pre>";
 
 ?>
