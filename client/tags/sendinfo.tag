@@ -213,6 +213,7 @@
 
       this.weatherCall(e);
       $('.la-anim-5').addClass('la-animate');
+
       self.update();
     }
 
@@ -311,17 +312,14 @@
     showChart(e) {
       e.preventDefault();
 
-        if(this.dataSent) {
-          $('#myChart').removeClass('hidechart');
-        }
-    }
+      // After we receive the data from octave we inject that into the chart
+      
+      // opts.lineChart.addData([100, 100], "August");
 
-    // Just to prevent form submit issues
-
-    onSubmit(e) {
-      e.preventDefault();
+      if(this.dataSent) {
+        $('#myChart').removeClass('hidechart');
+      }
     }
 
 	</script>
-
 </sendinfo>

@@ -42,5 +42,6 @@ $(function () {
     // Creates the chart object
     var ctx = document.getElementById("myChart").getContext("2d");
     var myLineChart = new Chart(ctx).Line(data);
+    riot.mount('sendinfo', {lineChart: myLineChart});
   });
 
