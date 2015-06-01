@@ -4,12 +4,11 @@
     <form method="post" action='' onsubmit={ onSubmit }>
       <div class="local">
 
-        <div class="form-description">
+        <div class="form-description" id="first-descript">
           <h4>Localização</h4>
         </div>
         <label>Escolha entre inserir a cidade ou coordenadas
         Nota: ao escolher cidade em vez de coordenadas os dados meteorológicos podem não ser tão precisos.</label>
-        <label>Método:</label>
         <select class="form-control" onchange={ localMethod }>
             <option value="">Escolha o método</option>
             <option value="Cidade">Cidade</option>
@@ -18,8 +17,8 @@
 
         <div class="coordenadas" onchange={ onInputCoords } if={ choseCoords }>
           <label>Coordenadas</label>
-          <input class="form-control" type="number" value="" placeholder="0" name="latitude"></input>
-          <input class="form-control" type="number" value="" placeholder="0" name="longitude"></input>
+          Latitude<input class="form-control" type="number" value="" placeholder="0" name="latitude"></input>
+          Longitude<input class="form-control" type="number" value="" placeholder="0" name="longitude"></input>
         </div>
 
         <div class="cidade" if={ choseCity }>
@@ -46,35 +45,9 @@
         </div>
 
         <select class="form-control" name="typeofwatering" onchange={ wateringSubmit }>
-            <option value="">Escolha o método</option>
+            <option value="">Escolha o tipo</option>
             <option each="{ water, i in  fields.TypeofWatering }" value="{ water }">{ water }</option>
         </select>
-      </div>
-
-      <div class="time">
-
-        <div class="form-description">
-          <h4>Período</h4>
-        </div>
-
-        <label>Mês inicial:</label>
-          <select class="form-control" id="startMonth" onchange={ monthSubmit }>
-            <option value="">Escolha o mês</option>
-            <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
-          </select>
-
-        <label>Dia inicial</label>
-        <input class="form-control" type="number" max="31" min="1" value="" placeholder="0" id="diainicial" oninput={ onInputDays }></input>
-
-        <label>Mes final:</label>
-          <select class="form-control" id="endMonth" onchange={ monthSubmit }>
-            <option value="">Escolha o mês</option>
-            <option each="{ month, i in  fields.Months }" value="{ month }">{ month }</option>
-          </select>
-
-        <label>Dia final</label>
-        <input class="form-control" type="number" maxlength="2" value="" placeholder="0" id="diafinal" oninput={ onInputDays }></input>
-
       </div>
 
       <button class="btn btn-primary" type="button" onclick="{ formSubmitted }" >Enviar dados</i></button>
@@ -89,7 +62,6 @@
           <p if={ choseCity }>Cidade : { this.city }</p>
           <p if={ choseCoords }>Latitude: { this.lat } </p>
           <p if={ choseCoords }>Longitude: { this.lon } </p>
-          <p>Período: <br> De { startDay } de { startMonth } até { endDay } de { endMonth } <br/></p>
           <p>Planta: { typeofplant.value }</p>
           <p>Tipo de Rega: { typeofwatering.value }</p>
         </div>
@@ -107,13 +79,12 @@
 
 		self = this;
     this.step1 = true;
-    this.teste = '';
     this.tmin = this.tmax = this.wind = 0;
     this.wateringCoeficient = 0;
     this.coeficient = 0;
     this.wateringType = '';
     this.choseCity = this.choseCoords = this.step2 = this.dataSent = false;
-		this.startMonth = this.startDay = this.endDay = this.endMonth = this.city = '';
+		this.city = '';
     this.lon = this.lat = this.userLat = this.userLon = 0;
     this.userData = [];
 
@@ -126,6 +97,18 @@
           "WateringCoeficient": [0.57, 0.59, 0.58, 0.9, 0.85, 0.8]
     };
 
+    // Data to send to octave
+    this.octaveData = {
+      "Latitude": this.lat,
+      "Longitude": this.lon,
+      "Tmin": this.tmin,
+      "Tmax": this.tmax,
+      "Vento": this.wind,
+      "Xmin": 1,
+      "Evapo": this.coeficient,
+      "TipodeRegaConst": this.wateringCoeficient
+    };
+
     // The chart is initially hidden
 
     this.on('mount', function() {
@@ -135,11 +118,10 @@
 
 		// Get the data from the user
 
-
     // Coordinates
     onInputCoords(e) {
-        this.userLat = this.latitude.value;
-        this.userLon = this.longitude.value;    }
+        this.lat = this.latitude.value;
+        this.lon = this.longitude.value;    }
 
     // Chosen method - Coords or city
     localMethod(e) {
@@ -203,26 +185,6 @@
       this.wateringCoeficient = this.fields.WateringCoeficient[index];
     }
 
-    // Submitted month
-		monthSubmit(e) {
-			var ID = $(e.target).attr('id');
-
-			if(ID == 'startMonth')
-				this.startMonth = $(e.target).val();
-      if(ID == 'endMonth')
-        this.endMonth = $(e.target).val();
-		};
-
-    // Submitted days
-		onInputDays(e) {
-      var ID = $(e.target).attr('id');
-
-			if(ID == 'diainicial')
-        this.startDay = $(e.target).val();
-      if(ID == 'diafinal')
-        this.endDay = $(e.target).val();
-		};
-
     // Submitted city - this function formats the string
     onInputPlace(e) {
       var string = $(e.target).val();
@@ -235,6 +197,7 @@
       this.step1 = true;
       this.dataSent = false;
       $('#myChart').addClass('hidechart');
+      $('.la-anim-5').removeClass('la-animate');
 
       this.update();
     }
@@ -249,6 +212,7 @@
       this.step1 = false;
 
       this.weatherCall(e);
+      $('.la-anim-5').addClass('la-animate');
       self.update();
     }
 
@@ -263,6 +227,7 @@
 
       self = this;
       urlResult = '';
+      vento = tmin = tmax = 0;
 
       if( this.choseCity ) {
         urlResult = 'http://api.openweathermap.org/data/2.5/weather?q='+ this.city + ',PT';
@@ -272,39 +237,24 @@
         urlResult = 'http://api.openweathermap.org/data/2.5/weather?'+'lat='+this.lat+'&'+'lon='+this.lon;
       }
 
-      $.ajax({
-        url: urlResult,
-        dataType: 'json',
-        success: function(data) {
-          self.wind = data.wind.speed;
-          self.tmin = data.main.temp_min;
-          self.tmax = data.main.temp_max;
-          console.log(self.wind);
-          console.log("Weather Data retrieved successfuly!");
-        },
-        error: function(jqXHR, textStatus, errorThrown) { 
-            console.log("Something went wrong");
-          }
-      });
-
-      console.log(self.wind);
+      $
+        .ajax({ url: urlResult, dataType: 'json' })
+        .then(this.onGetWeather.bind(this))
+        .fail(function() {
+          console.log("Something went wrong");
+        });
 
       return false;
-
     }
 
-    this.octaveData = {
-      "Latitude": this.lat,
-      "Longitude": this.lon,
-      "Tmin": this.tmin,
-      "Tmax": this.tmax,
-      "Vento": this.wind,
-      "Xmin": 1,
-      "Evapo": this.coeficient,
-      "TipodeRegaConst": this.wateringCoeficient
-    };
+    onGetWeather (data) {
+      this.wind = data.wind.speed;
+      this.tmin = data.main.temp_min;
+      this.tmax = data.main.temp_max;
 
-    console.log(this.octaveData);
+      this.update();
+      console.log("Weather Data retrieved successfuly!");
+    }
 
     // Format input data into json and write it to txt file
       writeToFile(e) {
@@ -333,25 +283,24 @@
 
     // Receive the output json from octave
 
-    // DELETE THIS FUNCTION, ITS OBSOLETE NOW
-
       receiveFromOctave(e) {
 
         e.preventDefault();
 
         self = this;
 
-        $.ajax({
-          url: 'http://localhost:4000/index.php',
-          type: 'get',
-          data: { 'input-data': JSON.stringify(self.fields) },
-          success: function(data){
+        $
+          .ajax({
+            url: 'http://localhost:4000/index.php',
+            type: 'get',
+            data: { 'input-data': JSON.stringify(self.fields) }
+          })
+          .then(function(data){
             console.log('call to index-data successful');
-          },
-          error: function(jqXHR, textStatus, errorThrown) { 
+          })
+          .fail(function(jqXHR, textStatus, errorThrown) { 
             console.log("call to index-data failed");
-          }
-        });
+          });
 
         return false;
 

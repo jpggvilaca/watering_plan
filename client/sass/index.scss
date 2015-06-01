@@ -53,42 +53,62 @@ body {
 }
 
 .main-wrapper {
-  display: inline-block;
+  display: flex;
   flex: 1 1 auto;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  flex-direction: row;
   margin-bottom: 35px;
   margin-left: 40px;
   padding: 15px 20px 0 80px;
   text-align: left;
-  width: 960px;
-  width: auto;
+  max-width: 960px;
 
 	.col-1 {
 		display: inline-block;
 		transition: color 1.5s ease-in-out;
 	}
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px 20px 0;
+    margin-left: 10px;
+  }
 }
 
 sendinfo {
-  display:flex;
+  display: flex;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  max-width: 440px;
 }
 
 .header {
     background-color: #2b9280;
     color: #fff;
     display: block;
+    margin-bottom: 20px;
     width: 100%;
 }
 
 .form-description {
   border-bottom: 1px solid #2b9280;
-  margin-top: 15px;
+  margin-top: 35px;
   max-width: 940px;
   margin-bottom: 10px;
   padding-bottom: 10px;
 
   + label {
       max-width: 70%;
+      margin-bottom: 10px;
   }
+}
+
+#first-descript {
+  margin-top: 0;
 }
 
 .step1 {
@@ -104,8 +124,8 @@ sendinfo {
 .results {
   color: black;
   display: inline-block;
-  height: 100%;
-  max-width: 400px;
+  flex: 0 1 auto;
+  width: 50%;
   padding-left: 20px;
   text-align: left;
 
@@ -115,15 +135,20 @@ sendinfo {
 }
 
 #myChart {
-  display: inline-block;
+  flex: 0 1 auto;
   height: 340px;
-  margin-left: 20px;
   width: 400px;
   transition: opacity 2s ease-in-out;
 
     &.hidechart {
         opacity: 0;
     }
+
+  @media (max-width: 480px) {
+    width: 320px !important;
+    height: 320px !important;
+  }
+
 }
 
 .local,
@@ -182,12 +207,90 @@ sendinfo {
   background-color: #2b9280;
   color: #fff;
   display: block;
-  height: auto;
   line-height: 63px;
   text-align: center;
   width: 100%;
+  white-space: nowrap;
 
   p {
     display: inline;
+
+    @media (max-width: 420px) {
+      font-size: 12px;
+    }
   }
+
+}
+
+
+// Loading animations
+/*
+Created by Codrops
+
+http://www.codrops.com
+
+Read more here: http://tympanus.net/codrops/licensing/
+
+Icon Set:  Font Awesome -- http://fortawesome.github.com/Font-Awesome/
+License:  SIL -- http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL
+
+
+Icon Set: Eco Ico -- http://dribbble.com/shots/665585-Eco-Ico
+License:  CC0 -- http://creativecommons.org/publicdomain/zero/1.0/
+
+*/
+
+/* Effect 5: 3d bar bottom */
+.la-anim-5 {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 12px;
+  background: #ed4e6e;
+  -webkit-transform: translate3d(-103%, 0, 0);
+  transform: translate3d(-103%, 0, 0);
+  pointer-events: none;
+}
+
+.la-anim-5::before,
+.la-anim-5::after {
+  position: absolute;
+  content: '';
+}
+
+.la-anim-5::before {
+  bottom: 100%;
+  left: -10%;
+  width: 110%;
+  height: 6px;
+  background: #fb738f;
+  -webkit-transform: skew(-45deg);
+  transform: skew(-45deg);
+  -webkit-transform-origin: 0 100%;
+  transform-origin: 0 100%;
+}
+
+.la-anim-5::after {
+  top: 0;
+  left: 100%;
+  width: 6px;
+  height: 100%;
+  background: #d23d5b;
+  -webkit-transform: skew(0,-45deg);
+  transform: skew(0,-45deg);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.la-anim-5.la-animate {
+  bottom: -20px;
+  z-index: 100;
+  -webkit-transition: -webkit-transform 5s ease-in, bottom 0.3s 5.7s;
+  transition: transform 5s ease-in, bottom 0.3s 5.7s;
+  -webkit-transform: translate3d(0%, 0, 0);
+  transform: translate3d(0%, 0, 0);
 }
