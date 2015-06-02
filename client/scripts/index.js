@@ -1,7 +1,6 @@
 $(function () {
 
   // Data to be inserted onto the chart object
-
    var data = {
     labels: [1,2,3,4,5,6,7,8,9,10],
     datasets: [
@@ -38,10 +37,10 @@ $(function () {
     ]
     };
 
-
     // Creates the chart object
     var ctx = document.getElementById("myChart").getContext("2d");
     var myLineChart = new Chart(ctx).Line(data);
     riot.mount('sendinfo', {lineChart: myLineChart});
+    
   });
 

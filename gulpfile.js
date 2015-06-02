@@ -9,8 +9,6 @@ var gulp = require('gulp'),
 	gulpRiot = require('gulp-riot'),
 	riot = require('riot');
 
-//// Gulp tasks ////
-
 // Uglifies (minifies js)
 
 gulp.task('scripts', function() {

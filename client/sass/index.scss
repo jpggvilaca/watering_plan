@@ -75,7 +75,7 @@ body {
 
   @media (max-width: 480px) {
     padding: 10px 20px 0;
-    margin-left: 10px;
+    margin-left: 0;
   }
 }
 
@@ -141,12 +141,14 @@ sendinfo {
   transition: opacity 2s ease-in-out;
 
     &.hidechart {
-        opacity: 0;
+        display: none;
     }
 
   @media (max-width: 480px) {
-    width: 320px !important;
-    height: 320px !important;
+    width: 260px !important;
+    height: 260px !important;
+
+    margin-top: 15px;
   }
 
 }
@@ -211,6 +213,11 @@ sendinfo {
   text-align: center;
   width: 100%;
   white-space: nowrap;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 
   p {
     display: inline;

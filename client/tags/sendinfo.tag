@@ -50,7 +50,7 @@
         </select>
       </div>
 
-      <button class="btn btn-primary" type="button" onclick="{ formSubmitted }" >Enviar dados</i></button>
+      <button class="btn btn-primary disabled" id="firstButton" type="button" onclick="{ formSubmitted }" >Enviar dados</i></button>
     </form>
   
   </div>
@@ -86,9 +86,8 @@
     this.choseCity = this.choseCoords = this.step2 = this.dataSent = false;
 		this.city = '';
     this.lon = this.lat = this.userLat = this.userLon = 0;
-    this.userData = [];
 
-    // Object for testing
+    // Main object initialization
     this.fields = {
           "Months": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
           "Cultures": ["Algodão","Amendoim","Arroz","Banana","Batata","Beterraba","Cana-de-açucar","Cártamo","Cebola","Citrinos","Couve","Ervilha","Feijão","Feijão-verde","Girassol","Luzema","Melancia","Milho","Oliveira","Pimento","Soja","Sorgo","Tabaco","Tomate","Trigo","Vinha"],
@@ -137,8 +136,6 @@
       }
     }
 
-    // Chosen plant
-
     // Auxiliary Method (gets the index of plant to retrieve the coeficient)
 
     function getIndex(chosenPlant) {
@@ -183,9 +180,10 @@
 
       this.wateringType = waterChosen;
       this.wateringCoeficient = this.fields.WateringCoeficient[index];
+      $('#firstButton').removeClass('disabled');
     }
 
-    // Submitted city - this function formats the string
+    // Submitted city - formats the string
     onInputPlace(e) {
       var string = $(e.target).val();
       this.city = string.charAt(0).toUpperCase() + string.slice(1);
@@ -197,7 +195,7 @@
       this.step1 = true;
       this.dataSent = false;
       $('#myChart').addClass('hidechart');
-      $('.la-anim-5').removeClass('la-animate');
+      //$('.la-anim-5').removeClass('la-animate');
 
       this.update();
     }
@@ -212,14 +210,10 @@
       this.step1 = false;
 
       this.weatherCall(e);
-      $('.la-anim-5').addClass('la-animate');
+      // $('.la-anim-5').addClass('la-animate');
 
       self.update();
     }
-
-    // Creates a json object with user data
-
-    
 	
 		// Weather API call
 
@@ -257,7 +251,7 @@
       console.log("Weather Data retrieved successfuly!");
     }
 
-    // Format input data into json and write it to txt file
+    // Data-to-file and runs octave
       writeToFile(e) {
         e.preventDefault();
 
