@@ -52,7 +52,7 @@
 
       <button class="btn btn-primary disabled" id="firstButton" type="button" onclick="{ formSubmitted }" >Enviar dados</i></button>
     </form>
-  
+
   </div>
 
   <div class="step2" if={ step2 }>
@@ -69,12 +69,12 @@
         <button class="btn btn-default" type="button" onclick="{ insNewData }">Introduzir novos dados</button>
         <button class="btn btn-primary" type="button" onclick="{ writeToFile }" >Enviar dados</i></button>
         <button class="btn btn-success" type="button" if="{ dataSent }" onclick="{ showChart }" >Gerar gráfico</button>
-        
+
     </div>
   </div>
 
 	<script>
-	
+
     // Variable declaration
 
 		self = this;
@@ -89,12 +89,21 @@
 
     // Main object initialization
     this.fields = {
-          "Months": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
           "Cultures": ["Algodão","Amendoim","Arroz","Banana","Batata","Beterraba","Cana-de-açucar","Cártamo","Cebola","Citrinos","Couve","Ervilha","Feijão","Feijão-verde","Girassol","Luzema","Melancia","Milho","Oliveira","Pimento","Soja","Sorgo","Tabaco","Tomate","Trigo","Vinha"],
           "Coeficients": [0.776,0.712,1.3,0.86,0.766,0.786,0.746,0.612,0.81,0.76,0.78,0.88,0.622,0.774,0.736,0.715,0.75,0.726,0.5,0.76,0.74,0.818,0.788,0.76,0.742,0.65],
           "TypeofWatering": ["Faixas","Canteiros","Sulcos","Gota-a-gota","Miniaspersão","Aspersão"],
-          "WateringCoeficient": [0.57, 0.59, 0.58, 0.9, 0.85, 0.8]
+          "WateringCoeficient": [0.57, 0.59, 0.58, 0.9, 0.85, 0.8],
+          "HydricNeeds": [],
+          "TypeofGround": [],
+          "GroundConstant": []
     };
+
+    // falta necessidades hidricas da planta , que sao de acordo com a planta
+    // pedir o tipo de solo ao utilizador e retornar uma constante associadaa (entre 0 e 20)
+    // falta o utilizador introduzir  humidade inicial(percentagem) e altitude
+    // a humidade inicial, se ele nao introduzir metemos o dobro da necessidade hidrica minima da planta escolhida
+    // litoral ou interior
+    // criar key->value object
 
     // Data to send to octave
     this.octaveData = {
@@ -124,11 +133,11 @@
 
     // Chosen method - Coords or city
     localMethod(e) {
-      if ($(e.target).val() == 'Coordenadas') { 
-        this.choseCoords = true; 
+      if ($(e.target).val() == 'Coordenadas') {
+        this.choseCoords = true;
         this.choseCity = false;
       }
-      else { 
+      else {
         this.choseCity = true;
         this.choseCoords = false;
 
@@ -214,7 +223,7 @@
 
       self.update();
     }
-	
+
 		// Weather API call
 
     weatherCall(e) {
@@ -265,13 +274,13 @@
           success: function(data){
             console.log('call to process-data successful');
           },
-          error: function(jqXHR, textStatus, errorThrown) { 
+          error: function(jqXHR, textStatus, errorThrown) {
             console.log("call to process-data failed");
           }
         });
 
         this.dataSent = true;
-        
+
 
         return false;
       }
@@ -293,21 +302,21 @@
           .then(function(data){
             console.log('call to index-data successful');
           })
-          .fail(function(jqXHR, textStatus, errorThrown) { 
+          .fail(function(jqXHR, textStatus, errorThrown) {
             console.log("call to index-data failed");
           });
 
         return false;
 
       }
-	
+
 		// Display the result to the user
 
     showChart(e) {
       e.preventDefault();
 
       // After we receive the data from octave we inject that into the chart
-      
+
       // opts.lineChart.addData([100, 100], "August");
 
       if(this.dataSent) {
