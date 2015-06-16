@@ -81,6 +81,7 @@
     this.step1 = true;
     this.tmin = this.tmax = this.wind = 0;
     this.wateringCoeficient = 0;
+    this.rain = 0;
     this.coeficient = 0;
     this.wateringType = '';
     this.choseCity = this.choseCoords = this.step2 = this.dataSent = false;
@@ -94,7 +95,7 @@
           "TypeofWatering": ["Faixas","Canteiros","Sulcos","Gota-a-gota","Miniaspersão","Aspersão"],
           "WateringCoeficient": [0.57, 0.59, 0.58, 0.9, 0.85, 0.8],
           "HydricNeeds": [],
-          "TypeofGround": [],
+          "TypeofGround": ["Arenoso", "Areno-franco", "Areno-limoso", "Franco", "Franco-limoso", "Limoso", "Franco-limo-argiloso", "Limo-argiloso", "Argiloso"],
           "GroundConstant": []
     };
 
@@ -145,7 +146,7 @@
       }
     }
 
-    // Auxiliary Method (gets the index of plant to retrieve the coeficient)
+    // Gets the index of plant to retrieve the coeficient
 
     function getIndex(chosenPlant) {
       plants = self.fields.Cultures;
@@ -160,6 +161,8 @@
 
       return -1;
     }
+
+    // Gets the index of watering to retrieve the wateringcoeficient
 
     function getIndexTwo(chosenWater) {
       typeofwatering = self.fields.TypeofWatering;
@@ -255,6 +258,7 @@
       this.wind = data.wind.speed;
       this.tmin = data.main.temp_min;
       this.tmax = data.main.temp_max;
+      this.rain = data.rain.3h;
 
       this.update();
       console.log("Weather Data retrieved successfuly!");
