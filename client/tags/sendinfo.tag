@@ -104,7 +104,6 @@
     // falta o utilizador introduzir  humidade inicial(percentagem) e altitude
     // a humidade inicial, se ele nao introduzir metemos o dobro da necessidade hidrica minima da planta escolhida
     // litoral ou interior
-    // criar key->value object
 
     // Data to send to octave
     this.octaveData = {
