@@ -41,6 +41,30 @@
 
       <div class="water">
         <div class="form-description">
+          <h4>Outros</h4>
+        </div>
+
+        <label>Tipo de solo</label>
+        <select class="form-control" name="TypeofGround" onchange={ wateringSubmit }>
+            <option value="">Escolha o tipo</option>
+            <option each="{ ground, i in  fields.TypeofGround }" value="{ ground }">{ ground }</option>
+        </select>
+
+        <label>Tipo de solo</label>
+        <select class="form-control" name="TypeofGround" onchange={ wateringSubmit }>
+            <option value="">Escolha o tipo</option>
+            <option each="{ ground, i in  fields.TypeofGround }" value="{ ground }">{ ground }</option>
+        </select>
+
+        <label>Tipo de solo</label>
+        <select class="form-control" name="TypeofGround" onchange={ wateringSubmit }>
+            <option value="">Escolha o tipo</option>
+            <option each="{ ground, i in  fields.TypeofGround }" value="{ ground }">{ ground }</option>
+        </select>
+      </div>
+
+      <div class="water">
+        <div class="form-description">
           <h4>Tipo de Rega</h4>
         </div>
 
@@ -81,7 +105,6 @@
     this.step1 = true;
     this.tmin = this.tmax = this.wind = 0;
     this.wateringCoeficient = 0;
-    this.rain = 0;
     this.coeficient = 0;
     this.wateringType = '';
     this.choseCity = this.choseCoords = this.step2 = this.dataSent = false;
@@ -257,7 +280,6 @@
       this.wind = data.wind.speed;
       this.tmin = data.main.temp_min;
       this.tmax = data.main.temp_max;
-      this.rain = data.rain.3h;
 
       this.update();
       console.log("Weather Data retrieved successfuly!");

@@ -36,7 +36,7 @@ gulp.task('minify-html', function() {
     conditionals: true,
     spare:true
   };
- 
+
   return gulp.src('index.html')
     .pipe(minifyHTML(opts))
     .pipe(gulp.dest('build/'));
@@ -66,7 +66,7 @@ gulp.task('webserver', function() {
       livereload: false,
       directoryListing: false,
       open: false,
-      port: 3000
+      port: 3008
     }));
 });
 
