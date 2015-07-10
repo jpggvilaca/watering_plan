@@ -122,12 +122,6 @@
           "GroundConstant": []
     };
 
-    // falta necessidades hidricas da planta , que sao de acordo com a planta
-    // pedir o tipo de solo ao utilizador e retornar uma constante associadaa (entre 0 e 20)
-    // falta o utilizador introduzir  humidade inicial(percentagem) e altitude
-    // a humidade inicial, se ele nao introduzir metemos o dobro da necessidade hidrica minima da planta escolhida
-    // litoral ou interior
-
     // Data to send to octave
     this.octaveData = {
       "Latitude": this.lat,
