@@ -50,16 +50,17 @@
             <option each="{ ground, i in  fields.TypeofGround }" value="{ ground }">{ ground }</option>
         </select>
 
-        <label>Tipo de solo</label>
-        <select class="form-control" name="TypeofGround" onchange={ wateringSubmit }>
-            <option value="">Escolha o tipo</option>
-            <option each="{ ground, i in  fields.TypeofGround }" value="{ ground }">{ ground }</option>
-        </select>
+        <label>Altitude</label>
+        <input class="form-control" type="number" value="" placeholder="0" name="altitude"></input>
 
-        <label>Tipo de solo</label>
-        <select class="form-control" name="TypeofGround" onchange={ wateringSubmit }>
+        <label>Humidade do solo</label>
+        <input class="form-control" type="number" value="" placeholder="0" name="groundHumidity"></input>
+
+        <label>Costa ou Interior</label>
+        <select class="form-control" name="coast" onchange={ coastSubmit }>
             <option value="">Escolha o tipo</option>
-            <option each="{ ground, i in  fields.TypeofGround }" value="{ ground }">{ ground }</option>
+            <option value="">Costa</option>
+            <option value="">Interior</option>
         </select>
       </div>
 
@@ -102,36 +103,42 @@
     // Variable declaration
 
 		self = this;
-    this.step1 = true;
-    this.tmin = this.tmax = this.wind = 0;
+    this.step1 = true; // To toggle the graphic step
+    this.tmin = this.tmax = this.wind = 0; // Weather variables
     this.wateringCoeficient = 0;
-    this.coeficient = 0;
+    this.coeficient = 0; // Plant coeficient
     this.wateringType = '';
     this.choseCity = this.choseCoords = this.step2 = this.dataSent = false;
 		this.city = '';
     this.lon = this.lat = this.userLat = this.userLon = 0;
+    this.groundHumidity = -1 // -1 is the default in case the user doesnt specifiy one
+    this.coast = 1 // coast by default, else interior
+    this.day = this.month = this.year = 0 // Default date will be now
+    this.altitude // altitude of the field
 
     // Main object initialization
     this.fields = {
           "Cultures": ["Algodão","Amendoim","Arroz","Banana","Batata","Beterraba","Cana-de-açucar","Cártamo","Cebola","Citrinos","Couve","Ervilha","Feijão","Feijão-verde","Girassol","Luzema","Melancia","Milho","Oliveira","Pimento","Soja","Sorgo","Tabaco","Tomate","Trigo","Vinha"],
           "Coeficients": [0.776,0.712,1.3,0.86,0.766,0.786,0.746,0.612,0.81,0.76,0.78,0.88,0.622,0.774,0.736,0.715,0.75,0.726,0.5,0.76,0.74,0.818,0.788,0.76,0.742,0.65],
+          "ProfRadMax": [1.4,0.75,0.75,0.7,0.5,0.8,0.5,1.5,0.45,1.3,0.5,0.8,0.75,0.6,1.2,1.5,1.1,1.4,0.5,0.75,0.9,1.5,0.5,1.1,1.3,0.5],
+          "PFraction": [0.6,0.5,0.2,0.35,0.35,0.5,0.5,0.6,0.5,0.5,0.5,0.35,0.45,0.45,0.45,0.5,0.4,0.55,0.5,0.3,0.5,0.55,0.5,0.4,0.55,0.5],
           "TypeofWatering": ["Faixas","Canteiros","Sulcos","Gota-a-gota","Miniaspersão","Aspersão"],
           "WateringCoeficient": [0.57, 0.59, 0.58, 0.9, 0.85, 0.8],
-          "HydricNeeds": [],
           "TypeofGround": ["Arenoso", "Areno-franco", "Areno-limoso", "Franco", "Franco-limoso", "Limoso", "Franco-limo-argiloso", "Limo-argiloso", "Argiloso"],
-          "GroundConstant": []
+          "GroundThetaFc": [0.12,0.04, 0.23, 0.26, 0.30, 0.32, 0.34, 0.36, 0.36],
+          "GroundThetaWp": [0.04, 0.04, 0.1, 0.12, 0.15, 0.15, 0.19, 0.21, 0.21]
     };
 
     // Data to send to octave
     this.octaveData = {
-      "Latitude": this.lat,
-      "Longitude": this.lon,
-      "Tmin": this.tmin,
-      "Tmax": this.tmax,
-      "Vento": this.wind,
-      "Xmin": 1,
-      "Evapo": this.coeficient,
-      "TipodeRegaConst": this.wateringCoeficient
+      "Latitude": this.lat, // Latitude from user's location
+      "Longitude": this.lon, // Longitude from user's location
+      "Tmin": this.tmin, // Minimum temperature
+      "Tmax": this.tmax, // Maximum temperature
+      "Vento": this.wind, // Wind conditions
+      "Xmin": 1, // Minimum humidity
+      "Evapo": this.coeficient, // Plant coeficient
+      "TipodeRegaConst": this.wateringCoeficient // Type of watering coeficient
     };
 
     // The chart is initially hidden
@@ -199,6 +206,13 @@
       index = getIndex(plantChosen);
 
       this.coeficient = this.fields.Coeficients[index];
+    }
+
+    // Handle ground humidity submission
+    groundHumidity(e) {
+      if ($(e.target).val() != '') {
+        this.groundHumidity = $(e.target).val();
+      }
     }
 
     // Handle type of watering submission
