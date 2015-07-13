@@ -57,10 +57,10 @@
         <input class="form-control" type="number" value="" placeholder="0" name="groundHumidity"></input>
 
         <label>Costa ou Interior</label>
-        <select class="form-control" name="coast" onchange={ coastSubmit }>
+        <select class="form-control" name="coast" onchange={ coastInterior }>
             <option value="">Escolha o tipo</option>
-            <option value="">Costa</option>
-            <option value="">Interior</option>
+            <option value="1">Costa</option>
+            <option value="2">Interior</option>
         </select>
       </div>
 
@@ -209,10 +209,32 @@
     }
 
     // Handle ground humidity submission
-    groundHumidity(e) {
-      if ($(e.target).val() != '') {
-        this.groundHumidity = $(e.target).val();
+    groundHumidity() {
+
+      humidity = $("[name='groundHumidity']");
+
+      if ($(humidity).val() != '') {
+        this.groundHumidity = $(humidity).val();
       }
+    }
+
+    // Handle altitude submission
+    altitudeSubmit() {
+
+      altitude = $("[name='altitude']");
+
+      if ($(altitude).val() != '') {
+        this.altitude = $(altitude).val();
+      }
+    }
+
+    // Handle coast submission
+    coastInterior(e) {
+      optionChosed = e.val();
+      if (optionChosed == 2) {
+        this.coast = 2;
+      }
+      // else it will be 1 by default
     }
 
     // Handle type of watering submission
@@ -237,7 +259,6 @@
       this.step1 = true;
       this.dataSent = false;
       $('#myChart').addClass('hidechart');
-      //$('.la-anim-5').removeClass('la-animate');
 
       this.update();
     }
@@ -252,7 +273,6 @@
       this.step1 = false;
 
       this.weatherCall(e);
-      // $('.la-anim-5').addClass('la-animate');
 
       self.update();
     }
