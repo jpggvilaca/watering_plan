@@ -115,6 +115,9 @@
     this.coast = 1 // coast by default, else interior
     this.day = this.month = this.year = 0 // Default date will be now
     this.altitude // altitude of the field
+    this.zr = 0 // plant zr
+    this.thetafc // groundthetafc
+    this.thetawp // groundthetawp
 
     // Main object initialization
     this.fields = {
@@ -171,10 +174,25 @@
 
     // Gets the index of plant to retrieve the coeficient
 
-    function getIndex(chosenPlant) {
+    function getCoeficients(chosenPlant) {
       plants = self.fields.Cultures;
       coeficients = self.fields.Coeficients;
       watering = self.fields.WateringCoeficient;
+
+      for (i = 0; i < plants.length; i++) {
+          if (chosenPlant == plants[i]) {
+            return i;
+          }
+      }
+
+      return -1;
+    }
+
+    // Gets the index of plant to retrieve the Zr
+
+    function getZr(chosenPlant) {
+      plants = self.fields.Cultures;
+      Zrs = self.fields.ProfRadMax;
 
       for (i = 0; i < plants.length; i++) {
           if (chosenPlant == plants[i]) {
@@ -200,11 +218,41 @@
       return -1;
     }
 
+    // Gets the index of ground to retrieve the thetafc
+
+    function getThetaIndex(chosenGround) {
+      typeofground = self.fields.TypeofGround;
+
+      for (i = 0; i < typeofground.length; i++) {
+          if (chosenGround == typeofground[i]) {
+            return i;
+          }
+      }
+
+      return -1;
+    }
+
+      return -1;
+    }
+
+    // TODO -> HANDLE TYPE OF GROUND SUBMISSION
+
+    // Handle type of plant submission
+    groundSubmit() {
+      groundChosen = this.typeofground.value;
+      index = getThetaFcIndex(groundChosen);
+
+      this.thetafc = this.fields.GroundThetaFc[index];
+      this.thetawp = this.fields.GroundThetaWp[index];
+    }
+
     // Handle type of plant submission
     plantSubmit() {
       plantChosen = this.typeofplant.value;
-      index = getIndex(plantChosen);
+      index = getCoeficients(plantChosen);
+      indextwo = getZr(plantChosen);
 
+      this.zr = this.fields.ProfRadMax[index];
       this.coeficient = this.fields.Coeficients[index];
     }
 
@@ -215,6 +263,9 @@
 
       if ($(humidity).val() != '') {
         this.groundHumidity = $(humidity).val();
+      }
+      else {
+        this.groundHumidity = -1;
       }
     }
 
