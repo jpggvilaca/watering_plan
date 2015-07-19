@@ -9,20 +9,20 @@
         </div>
         <label>Escolha entre inserir a cidade ou coordenadas
         Nota: ao escolher cidade em vez de coordenadas os dados meteorológicos podem não ser tão precisos.</label>
-        <select class="form-control" onchange={ localMethod }>
+        <select class="form-control" onchange="{ localMethod }">
             <option value="">Escolha o método</option>
             <option value="Cidade">Cidade</option>
             <option value="Coordenadas">Coordenadas</option>
         </select>
 
-        <div class="coordenadas" onchange={ onInputCoords } if={ choseCoords }>
+        <div class="coordenadas" onchange="{ onInputCoords }" if="{ choseCoords }">
           <label>Coordenadas</label>
           Latitude<input class="form-control" type="number" value="" placeholder="0" name="latitude"></input>
           Longitude<input class="form-control" type="number" value="" placeholder="0" name="longitude"></input>
         </div>
 
         <div class="cidade" if={ choseCity }>
-          <input type="text" class="form-control" value="" placeholder="Cidade" id="local" oninput={ onInputPlace }></input>
+          <input type="text" class="form-control" value="" placeholder="Cidade" id="local" oninput="{ onInputPlace }"></input>
         </div>
 
       </div>
@@ -32,7 +32,7 @@
           <h4>Planta</h4>
         </div>
 
-        <select class="form-control" name="typeofplant" onchange={ plantSubmit }>
+        <select class="form-control" name="typeofplant" onchange="{ plantSubmit }">
             <option value="">Escolha a planta</option>
             <option each="{ plant, i in  fields.Cultures }" value="{ plant }">{ plant }</option>
         </select>
@@ -45,19 +45,19 @@
         </div>
 
         <label>Tipo de solo</label>
-        <select class="form-control" name="typeofground" onchange={ groundSubmit }>
+        <select class="form-control" name="typeofground" onchange="{ groundSubmit }">
             <option value="">Escolha o tipo</option>
             <option each="{ ground, i in  fields.TypeofGround }" value="{ ground }">{ ground }</option>
         </select>
 
         <label>Altitude</label>
-        <input class="form-control" type="number" value="" placeholder="0" name="altitude" oninput={ altitudeSubmit }></input>
+        <input class="form-control" type="number" value="" placeholder="0" name="altitude" oninput="{ altitudeSubmit }"></input>
 
         <label>Humidade do solo</label>
-        <input class="form-control" type="number" value="" placeholder="0" name="groundHumidity" oninput={ groundHumidity }></input>
+        <input class="form-control" type="number" value="" placeholder="0" name="groundHumidity" oninput="{ groundHumidity }"></input>
 
         <label>Costa ou Interior</label>
-        <select class="form-control" name="coast" onchange={ coastInterior }>
+        <select class="form-control" name="coast" onchange="{ coastInterior }">
             <option value="">Escolha o tipo</option>
             <option value="1">Costa</option>
             <option value="2">Interior</option>
@@ -69,7 +69,7 @@
           <h4>Tipo de Rega</h4>
         </div>
 
-        <select class="form-control" name="typeofwatering" onchange={ wateringSubmit }>
+        <select class="form-control" name="typeofwatering" onchange="{ wateringSubmit }">
             <option value="">Escolha o tipo</option>
             <option each="{ water, i in  fields.TypeofWatering }" value="{ water }">{ water }</option>
         </select>
@@ -84,9 +84,9 @@
     <div class="results">
         <h4 class="description">Os seus dados:</h4>
         <div class="col-1">
-          <p if={ choseCity }>Cidade : { this.city }</p>
-          <p if={ choseCoords }>Latitude: { this.lat } </p>
-          <p if={ choseCoords }>Longitude: { this.lon } </p>
+          <p if="{ choseCity }">Cidade : { this.city }</p>
+          <p if="{ choseCoords }">Latitude: { this.lat } </p>
+          <p if="{ choseCoords }">Longitude: { this.lon } </p>
           <p>Planta: { typeofplant.value }</p>
           <p>Tipo de Rega: { typeofwatering.value }</p>
         </div>
@@ -100,6 +100,9 @@
 
 	<script>
 
+    // ToDo
+    // Exportar o weather data em arrays de 5 elementos
+
     // Variable declaration
 
 		self = this;
@@ -111,14 +114,14 @@
     this.choseCity = this.choseCoords = this.step2 = this.dataSent = false;
 		this.city = '';
     this.lon = this.lat = this.userLat = this.userLon = 0;
-    this.groundHumidity = -1 // -1 is the default in case the user doesnt specifiy one
-    this.pfraction = 0 // plant pfraction
-    this.coast = 1 // coast by default, else interior
-    this.day = this.month = this.year = 0 // Default date will be now
-    this.altitude // altitude of the field
-    this.zr = 0 // plant zr
-    this.thetafc = 0 // groundthetafc
-    this.thetawp = 0 // groundthetawp
+    this.groundHumidity = -1; // -1 is the default in case the user doesnt specifiy one
+    this.pfraction = 0; // plant pfraction
+    this.coast = 1; // coast by default, else interior
+    this.day = this.month = this.year = 0; // Default date will be now
+    this.altitude = 0; // altitude of the field
+    this.zr = 0; // plant zr
+    this.thetafc = 0; // groundthetafc
+    this.thetawp = 0; // groundthetawp
 
     // Main object initialization
     this.fields = {
@@ -146,6 +149,7 @@
     onInputCoords(e) {
         this.lat = this.latitude.value;
         this.lon = this.longitude.value;
+        this.update();
     }
 
     // Chosen method - Coords or city
@@ -160,6 +164,7 @@
 
         this.city = $(e.target).val();
       }
+      this.update();
     }
 
     // Gets the index of plant to retrieve the coeficient
@@ -231,6 +236,7 @@
 
       this.thetafc = this.fields.GroundThetaFc[index];
       this.thetawp = this.fields.GroundThetaWp[index];
+      this.update();
     }
 
     // Handle type of plant submission
@@ -241,7 +247,8 @@
 
       this.zr = this.fields.ProfRadMax[index];
       this.coeficient = this.fields.Coeficients[index];
-      this.pFraction = this.fields.pFraction[index];
+      this.pfraction = this.fields.PFraction[index];
+      this.update();
     }
 
     // Handle ground humidity submission
@@ -255,6 +262,7 @@
       else {
         this.groundHumidity = -1;
       }
+      this.update();
     }
 
     // Handle altitude submission
@@ -265,6 +273,7 @@
       if ($(altitude).val() != '') {
         this.altitude = $(altitude).val();
       }
+      this.update();
     }
 
     // Handle coast submission
@@ -274,6 +283,7 @@
         this.coast = 2;
       }
       // else it will be 1 by default
+      this.update();
     }
 
     // Handle type of watering submission
@@ -284,6 +294,7 @@
       this.wateringType = waterChosen;
       this.wateringCoeficient = this.fields.WateringCoeficient[index];
       $('#firstButton').removeClass('disabled');
+      this.update();
     }
 
     // Submitted city - formats the string
