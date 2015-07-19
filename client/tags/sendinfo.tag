@@ -112,6 +112,7 @@
 		this.city = '';
     this.lon = this.lat = this.userLat = this.userLon = 0;
     this.groundHumidity = -1 // -1 is the default in case the user doesnt specifiy one
+    this.pfraction = 0 // plant pfraction
     this.coast = 1 // coast by default, else interior
     this.day = this.month = this.year = 0 // Default date will be now
     this.altitude // altitude of the field
@@ -130,21 +131,6 @@
           "TypeofGround": ["Arenoso", "Areno-franco", "Areno-limoso", "Franco", "Franco-limoso", "Limoso", "Franco-limo-argiloso", "Limo-argiloso", "Argiloso"],
           "GroundThetaFc": [0.12,0.04, 0.23, 0.26, 0.30, 0.32, 0.34, 0.36, 0.36],
           "GroundThetaWp": [0.04, 0.04, 0.1, 0.12, 0.15, 0.15, 0.19, 0.21, 0.21]
-    };
-
-    // Data to send to octave
-    this.octaveData = {
-      "Latitude": this.lat, // Latitude from user's location
-      "Longitude": this.lon, // Longitude from user's location
-      "Tmin": this.tmin, // Minimum temperature
-      "Tmax": this.tmax, // Maximum temperature
-      "Vento": this.wind, // Wind conditions
-      "Xmin": 1, // Minimum humidity
-      "Evapo": this.coeficient, // Plant coeficient
-      "ProfRadMax": this.zr, // Plant radicular depth
-      "TipodeRegaConst": this.wateringCoeficient, // Type of watering coeficient
-      "groundthetaFC": this.thetafc, // ground fc
-      "groundthetaWP": this.thetawp // ground wp
     };
 
     // The chart is initially hidden
@@ -255,6 +241,7 @@
 
       this.zr = this.fields.ProfRadMax[index];
       this.coeficient = this.fields.Coeficients[index];
+      this.pFraction = this.fields.pFraction[index];
     }
 
     // Handle ground humidity submission
@@ -365,6 +352,27 @@
       console.log("Weather Data retrieved successfuly!");
     }
 
+     // Data to send to octave
+    this.octaveData = {
+      "Dia": new Date().getDate(), 
+      "Mes": new Date().getMonth() + 1,
+      "Ano": new Date().getFullYear(),
+      "Altitude": this.altitude,
+      "Latitude": this.lat, // Latitude from user's location
+      "Longitude": this.lon, // Longitude from user's location
+      "Tmin": this.tmin, // Minimum temperature
+      "Tmax": this.tmax, // Maximum temperature
+      "Vento": this.wind, // Wind conditions
+      "Xmin": 1, // Minimum humidity
+      "Evapo": this.coeficient, // Plant coeficient
+      "TipodeRegaConst": this.wateringCoeficient, // Type of watering coeficient
+      "Costa": this.coast,
+      "groundthetaFC": this.thetafc, // ground fc
+      "groundthetaWP": this.thetawp, // ground wp
+      "pFraction": this.pfraction, // plant pFraction
+      "ProfRadMax": this.zr // Plant radicular depth
+    };
+
     // Data-to-file and runs octave
       writeToFile(e) {
         e.preventDefault();
@@ -378,7 +386,7 @@
           cache: false
         })
         .then(this.onWriteToTheFile.bind(this))
-        .fail(function() {
+        .fail(function(jqXHR, textStatus, errorThrown) {
           console.log("Something went wrong");
         });
 
