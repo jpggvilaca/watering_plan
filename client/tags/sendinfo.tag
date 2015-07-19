@@ -45,16 +45,16 @@
         </div>
 
         <label>Tipo de solo</label>
-        <select class="form-control" name="TypeofGround" onchange={ wateringSubmit }>
+        <select class="form-control" name="typeofground" onchange={ groundSubmit }>
             <option value="">Escolha o tipo</option>
             <option each="{ ground, i in  fields.TypeofGround }" value="{ ground }">{ ground }</option>
         </select>
 
         <label>Altitude</label>
-        <input class="form-control" type="number" value="" placeholder="0" name="altitude"></input>
+        <input class="form-control" type="number" value="" placeholder="0" name="altitude" oninput={ altitudeSubmit }></input>
 
         <label>Humidade do solo</label>
-        <input class="form-control" type="number" value="" placeholder="0" name="groundHumidity"></input>
+        <input class="form-control" type="number" value="" placeholder="0" name="groundHumidity" oninput={ groundHumidity }></input>
 
         <label>Costa ou Interior</label>
         <select class="form-control" name="coast" onchange={ coastInterior }>
@@ -116,8 +116,8 @@
     this.day = this.month = this.year = 0 // Default date will be now
     this.altitude // altitude of the field
     this.zr = 0 // plant zr
-    this.thetafc // groundthetafc
-    this.thetawp // groundthetawp
+    this.thetafc = 0 // groundthetafc
+    this.thetawp = 0 // groundthetawp
 
     // Main object initialization
     this.fields = {
@@ -141,7 +141,10 @@
       "Vento": this.wind, // Wind conditions
       "Xmin": 1, // Minimum humidity
       "Evapo": this.coeficient, // Plant coeficient
-      "TipodeRegaConst": this.wateringCoeficient // Type of watering coeficient
+      "ProfRadMax": this.zr, // Plant radicular depth
+      "TipodeRegaConst": this.wateringCoeficient, // Type of watering coeficient
+      "groundthetaFC": this.thetafc, // ground fc
+      "groundthetaWP": this.thetawp // ground wp
     };
 
     // The chart is initially hidden
@@ -156,7 +159,8 @@
     // Coordinates
     onInputCoords(e) {
         this.lat = this.latitude.value;
-        this.lon = this.longitude.value;    }
+        this.lon = this.longitude.value;
+    }
 
     // Chosen method - Coords or city
     localMethod(e) {
@@ -232,15 +236,12 @@
       return -1;
     }
 
-      return -1;
-    }
-
     // TODO -> HANDLE TYPE OF GROUND SUBMISSION
 
     // Handle type of plant submission
     groundSubmit() {
       groundChosen = this.typeofground.value;
-      index = getThetaFcIndex(groundChosen);
+      index = getThetaIndex(groundChosen);
 
       this.thetafc = this.fields.GroundThetaFc[index];
       this.thetawp = this.fields.GroundThetaWp[index];
@@ -281,7 +282,7 @@
 
     // Handle coast submission
     coastInterior(e) {
-      optionChosed = e.val();
+      optionChosed = $(e.target).val();
       if (optionChosed == 2) {
         this.coast = 2;
       }
@@ -374,19 +375,23 @@
           url: 'http://localhost:4000/process-data.php',
           type: 'post',
           data: { 'input-data': JSON.stringify(this.octaveData) },
-          cache: false,
-          success: function(data){
-            console.log('call to process-data successful');
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-            console.log("call to process-data failed");
-          }
+          cache: false
+        })
+        .then(this.onWriteToTheFile.bind(this))
+        .fail(function() {
+          console.log("Something went wrong");
         });
 
-        this.dataSent = true;
-
-
         return false;
+      }
+
+      // New helper function writetofile
+      onWriteToTheFile() {
+          this.dataSent = true;
+
+        for (var key in this.octaveData) {
+          console.log(key + " -> " + this.octaveData[key]);
+        }
       }
 
     // Receive the output json from octave

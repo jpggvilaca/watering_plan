@@ -1,7 +1,7 @@
 {
   "name": "watering-plan",
   "authors": [
-    "Joao Vilaca - David Marques"
+    "Joao Vilaca"
   ],
   "license": "MIT",
   "dependencies": {
