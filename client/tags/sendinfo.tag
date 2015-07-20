@@ -53,6 +53,9 @@
         <label>Altitude</label>
         <input class="form-control" type="number" value="" placeholder="0" name="altitude" oninput="{ altitudeSubmit }"></input>
 
+        <label>Estado inicial da planta</label>
+        <input class="form-control" type="number" value="" placeholder="0" name="estadoinicial" oninput="{ initStateSubmit }"></input>
+
         <label>Humidade do solo</label>
         <input class="form-control" type="number" value="" placeholder="0" name="groundHumidity" oninput="{ groundHumidity }"></input>
 
@@ -105,6 +108,9 @@
 
     // Variable declaration
 
+    // rain, wind, tmin, tmax, fazer media dos 8 calculos por dia, e dar um array de 5 elementos
+    // com essas medias
+
 		self = this;
     this.step1 = true; // To toggle the graphic step
     this.tmin = this.tmax = this.wind = 0; // Weather variables
@@ -122,6 +128,7 @@
     this.zr = 0; // plant zr
     this.thetafc = 0; // groundthetafc
     this.thetawp = 0; // groundthetawp
+    this.initialstate = 0; // initial state of the plant
 
     // Main object initialization
     this.fields = {
@@ -276,6 +283,18 @@
       this.update();
     }
 
+    initStateSubmit() {
+        estadoinicial = $("[name='estadoinicial']");
+
+        if ($(estadoinicial).val() != '') {
+          this.estadoinicial = $(estadoinicial).val();
+        }
+        else {
+          this.estadoinicial = this.Xmin;
+        }
+        this.update();
+      }
+
     // Handle coast submission
     coastInterior(e) {
       optionChosed = $(e.target).val();
@@ -364,34 +383,35 @@
     }
 
      // Data to send to octave
-    this.octaveData = {
-      "Dia": new Date().getDate(), 
-      "Mes": new Date().getMonth() + 1,
-      "Ano": new Date().getFullYear(),
-      "Altitude": this.altitude,
-      "Latitude": this.lat, // Latitude from user's location
-      "Longitude": this.lon, // Longitude from user's location
-      "Tmin": this.tmin, // Minimum temperature
-      "Tmax": this.tmax, // Maximum temperature
-      "Vento": this.wind, // Wind conditions
-      "Xmin": 1, // Minimum humidity
-      "Evapo": this.coeficient, // Plant coeficient
-      "TipodeRegaConst": this.wateringCoeficient, // Type of watering coeficient
-      "Costa": this.coast,
-      "groundthetaFC": this.thetafc, // ground fc
-      "groundthetaWP": this.thetawp, // ground wp
-      "pFraction": this.pfraction, // plant pFraction
-      "ProfRadMax": this.zr // Plant radicular depth
-    };
 
     // Data-to-file and runs octave
       writeToFile(e) {
         e.preventDefault();
 
         self = this;
+        this.octaveData = {
+          "Dia": new Date().getDate(),
+          "Mes": new Date().getMonth() + 1,
+          "Ano": new Date().getFullYear(),
+          "EstadoInicial": this.estadoinicial,
+          "Altitude": this.altitude,
+          "Latitude": this.lat, // Latitude from user's location
+          "Longitude": this.lon, // Longitude from user's location
+          "Tmin": this.tmin, // Minimum temperature
+          "Tmax": this.tmax, // Maximum temperature
+          "Vento": this.wind, // Wind conditions
+          "Xmin": 1, // Minimum humidity
+          "Evapo": this.coeficient, // Plant coeficient
+          "TipodeRegaConst": this.wateringCoeficient, // Type of watering coeficient
+          "Costa": this.coast,
+          "groundthetaFC": this.thetafc, // ground fc
+          "groundthetaWP": this.thetawp, // ground wp
+          "pFraction": this.pfraction, // plant pFraction
+          "ProfRadMax": this.zr // Plant radicular depth
+        };
 
         $.ajax({
-          url: 'http://localhost:4000/process-data.php',
+          url: 'http://wp.watering.dev/process-data.php',
           type: 'post',
           data: { 'input-data': JSON.stringify(this.octaveData) },
           cache: false
@@ -423,7 +443,7 @@
 
         $
           .ajax({
-            url: 'http://localhost:4000/index.php',
+            url: 'http://wp.watering.dev/index.php',
             type: 'get',
             data: { 'input-data': JSON.stringify(self.fields) }
           })
