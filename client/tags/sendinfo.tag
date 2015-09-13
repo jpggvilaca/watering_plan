@@ -411,7 +411,7 @@
         };
 
         $.ajax({
-          url: 'http://wp.watering.dev/process-data.php',
+          url: 'http://localhost:4000/process-data.php',
           type: 'post',
           data: { 'input-data': JSON.stringify(this.octaveData) },
           cache: false
@@ -428,9 +428,9 @@
       onWriteToTheFile() {
           this.dataSent = true;
 
-        for (var key in this.octaveData) {
-          console.log(key + " -> " + this.octaveData[key]);
-        }
+        //for (var key in this.octaveData) {
+        //  console.log(key + " -> " + this.octaveData[key]);
+        //}
       }
 
     // Receive the output json from octave
@@ -443,7 +443,7 @@
 
         $
           .ajax({
-            url: 'http://wp.watering.dev/index.php',
+            url: 'http://localhost:4000/index.php',
             type: 'get',
             data: { 'input-data': JSON.stringify(self.fields) }
           })
@@ -462,10 +462,6 @@
 
     showChart(e) {
       e.preventDefault();
-
-      // After we receive the data from octave we inject that into the chart
-
-      // opts.lineChart.addData([100, 100], "August");
 
       if(this.dataSent) {
         $('#myChart').removeClass('hidechart');

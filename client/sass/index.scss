@@ -135,6 +135,9 @@ sendinfo {
 }
 
 #myChart {
+  background-image: url('../assets/chappie.jpg');
+  background-size: cover;
+  background-position: center;
   flex: 0 1 auto;
   height: 340px;
   width: 400px;
